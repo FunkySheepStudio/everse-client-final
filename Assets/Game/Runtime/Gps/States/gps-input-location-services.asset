@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae9d19be8a4d2b248a1b020fbd87f354, type: 3}
-  m_Name: gps-check-device-permissions-state
+  m_Script: {fileID: 11500000, guid: 3e93edc13b3fc974d9a93a87ace28c26, type: 3}
+  m_Name: gps-input-location-services
   m_EditorClassIdentifier: 
   onEnterState: {fileID: 0}
   onExitState: {fileID: 0}
   manager: {fileID: 0}
-  inputLocationServicesState: {fileID: 11400000, guid: 4efac79e696fc8e4f99ff9fa11e4add7,
-    type: 2}
+  runningState: {fileID: 11400000, guid: 6e971bc5302a3ee4aa62eec4ae7f745f, type: 2}

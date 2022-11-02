@@ -11,10 +11,12 @@ namespace FunkySheep.Gps.States
         public State checkDevicePermissionsState;
         public override void Update()
         {
+#if UNITY_EDITOR
             if (UnityEditor.EditorApplication.isRemoteConnected)
             {
                 SwitchState(checkDevicePermissionsState);
             }
+#endif
         }
     }
 }
