@@ -6,6 +6,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using FunkySheep.Maps.Types;
+using FunkySheep.Terrain.Types;
 
 namespace FunkySheep.Terrain
 {
@@ -34,17 +35,17 @@ namespace FunkySheep.Terrain
             //DownloadDiffuse();
         }
 
-        public void Init(int2 mapPosition, Texture2D texture)
+        public void Init(TileData tile)
         {
-            name = mapPosition.ToString();
+            name = tile.position.ToString();
             Vector3 position = new Vector3(
-                (mapPosition.x - initialMapPosition.Value.x) * tileSize.Value,
+                (tile.position.x - initialMapPosition.Value.x) * tileSize.Value,
             0,
-                (initialMapPosition.Value.y - mapPosition.y) * tileSize.Value // Map axis are reverted
+                (initialMapPosition.Value.y - tile.position.y) * tileSize.Value // Map axis are reverted
             );
             transform.localPosition = position;
-            ProcessHeights(texture);
-            ProcessDiffuse(texture);
+            ProcessHeights(tile.heightTexture);
+            ProcessDiffuse(tile.diffuseTexture);
 
         }
 

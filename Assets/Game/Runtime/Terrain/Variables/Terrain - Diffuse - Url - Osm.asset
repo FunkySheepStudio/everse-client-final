@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e4edd09c40c8640bcf40a08f98eea8, type: 3}
-  m_Name: Terrain - Downloaded Heights
+  m_Script: {fileID: 11500000, guid: ee5abcc3c2ae5ed41981a5b5cf937d57, type: 3}
+  m_Name: Terrain - Diffuse - Url - Osm
   m_EditorClassIdentifier: 
-  mapPositionRoundeds: []
+  Value: https://tile.openstreetmap.org/{zoom}/{position.x}/{position.y}.png
