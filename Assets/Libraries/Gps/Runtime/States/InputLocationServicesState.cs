@@ -8,16 +8,15 @@ namespace FunkySheep.Gps.States
     public class InputLocationServicesState : State
     {
         public State runningState;
-        public override void EnterState(FunkySheep.States.Manager manager)
+        public override void StartedState(FunkySheep.States.Manager manager)
         {
-            base.EnterState(manager);
-
             Input.location.Start();
+            base.StartedState(manager);
         }
 
         public override void Update()
         {
-            if (Input.location.status != LocationServiceStatus.Running)
+            if (Input.location.status == LocationServiceStatus.Running)
             {
                 SwitchState(runningState);
             }

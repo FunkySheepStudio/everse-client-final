@@ -121,6 +121,20 @@
       },
       "url": "https://packages.unity.com"
     },
+    "net.funkysheep.unity.crypto": {
+      "version": "0.1.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.org"
+    },
+    "net.funkysheep.unity.files": {
+      "version": "0.1.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.org"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

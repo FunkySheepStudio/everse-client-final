@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f25be476ed2a734c9ee93dd89aef137, type: 3}
+  m_Name: Terrain - Download Tiles
+  m_EditorClassIdentifier: 
+  dependencies: []
+  manager: {fileID: 0}
+  url: {fileID: 11400000, guid: f8a62c7e42095804f9f35f6c1af015a2, type: 2}
+  mapPosition: {fileID: 11400000, guid: eff0c1a1f1de2f041bc50e111e49e879, type: 2}
+  initialMapPosition: {fileID: 11400000, guid: 5c883b419299b66479473e64f5354ef5, type: 2}
+  zoomLevel: {fileID: 11400000, guid: 8b76ae6caf2225c40be90e5d7ce27c7d, type: 2}
+  tileSize: {fileID: 11400000, guid: 02fdcd12335e8834b81eb92ffe6027d2, type: 2}
+  downloadedPositions: {fileID: 11400000, guid: 607f3912df7a5df4c80c66a910955171,
+    type: 2}
+  tilePrefab: {fileID: 4121857475319732502, guid: 2fcbb25840300e346bca9f8dd796faf0,
+    type: 3}

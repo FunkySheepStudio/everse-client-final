@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FunkySheep.States
@@ -7,10 +8,16 @@ namespace FunkySheep.States
     {
         public State startingState;
         public State currentState;
+        public List<Manager> consumers;
+
+        private void Awake()
+        {
+            currentState = startingState;
+        }
 
         private void Start()
         {
-            startingState.EnterState(this);
+            startingState.StartedState(this);
         }
 
         private void Update()

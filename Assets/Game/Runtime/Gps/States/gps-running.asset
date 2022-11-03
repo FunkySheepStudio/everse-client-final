@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8b8dcda183ba5245a519c548dff5fef, type: 3}
   m_Name: gps-running
   m_EditorClassIdentifier: 
-  onEnterState: {fileID: 11400000, guid: 4fe208e716d577842bdeed8dd5627e69, type: 2}
-  onExitState: {fileID: 0}
+  dependencies: []
   manager: {fileID: 0}
+  gpsCoordinates: {fileID: 11400000, guid: 42277c07ae278fa4bae90e5367abe26f, type: 2}

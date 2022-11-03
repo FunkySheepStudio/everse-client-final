@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FunkySheep.States
@@ -5,29 +6,44 @@ namespace FunkySheep.States
     [CreateAssetMenu(menuName = "FunkySheep/States/State")]
     public class State : ScriptableObject
     {
-        public Events.Event onEnterState;
-        public Events.Event onExitState;
+        public List<State> dependencies;
         [HideInInspector]
         public Manager manager;
 
         public virtual void SwitchState(State state)
         {
-            ExitState();
-            state.EnterState(manager);
+            ExitedState();
+            state.StartedState(manager);
         }
 
-        public virtual void EnterState(Manager manager)
+        public virtual void StartedState(Manager manager)
         {
             this.manager = manager;
             this.manager.currentState = this;
-            if (onEnterState)
-                onEnterState.Raise(this);
+            foreach (Manager consumer in manager.consumers)
+            {
+                consumer.currentState.OnDependencyEnterState(this);
+            }
         }
 
-        public virtual void ExitState()
+        public virtual void OnDependencyEnterState(State state)
         {
-            if (onExitState)
-                onExitState.Raise(this);
+            if (!dependencies.Contains(state))
+                return;
+        }
+
+        public virtual void OnDependencyExitState(State state)
+        {
+            if (!dependencies.Contains(state))
+                return;
+        }
+
+        public virtual void ExitedState()
+        {
+            foreach (Manager consumer in manager.consumers)
+            {
+                consumer.currentState.OnDependencyExitState(this);
+            }
         }
 
         public virtual void Update()

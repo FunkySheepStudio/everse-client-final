@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abad3d7c178234408ee4e9a90f31b0c, type: 3}
+  m_Name: map - Calculate Initial Position
+  m_EditorClassIdentifier: 
+  dependencies: []
+  manager: {fileID: 0}
+  gpsCoordinates: {fileID: 11400000, guid: 42277c07ae278fa4bae90e5367abe26f, type: 2}
+  zoomLevel: {fileID: 11400000, guid: 8b76ae6caf2225c40be90e5d7ce27c7d, type: 2}
+  mapPosition: {fileID: 11400000, guid: 2cc7f53e6e33c454c9a8173aa2932b89, type: 2}
+  mapPositionRounded: {fileID: 11400000, guid: 5c883b419299b66479473e64f5354ef5, type: 2}
+  nextState: {fileID: 11400000, guid: bfabd8340e69e3e4999e1e43ecd41a4d, type: 2}
