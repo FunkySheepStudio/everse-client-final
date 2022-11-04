@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbf3340f96ecc145b49cee898be46f7, type: 3}
   m_Name: Buildings - Downloading
   m_EditorClassIdentifier: 
-  dependencies: []
+  parents:
+  - state: {fileID: 11400000, guid: 0ea971b6b74a6de428059d9763cc13d3, type: 2}
+    start: 1
+    update: 0
+    stop: 0
+  children: []
+  started: 0
   manager: {fileID: 0}
-  url: {fileID: 11400000, guid: f62d538071bb3e943ac09aff2a5ba5f0, type: 2}
+  url: {fileID: 11400000, guid: 4a117d534ca69be489643a265d028a24, type: 2}
+  mapPosition: {fileID: 11400000, guid: eff0c1a1f1de2f041bc50e111e49e879, type: 2}
+  zoomLevel: {fileID: 11400000, guid: 8b76ae6caf2225c40be90e5d7ce27c7d, type: 2}
+  tileSize: {fileID: 11400000, guid: 02fdcd12335e8834b81eb92ffe6027d2, type: 2}
+  currentTiles: {fileID: 11400000, guid: 941707e569e842e4e908ee1f4f1d4148, type: 2}
+  prefab: {fileID: 3423171914911649145, guid: 6ea06f6ce22076742b76b3ac213152dd, type: 3}

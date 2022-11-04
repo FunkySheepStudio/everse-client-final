@@ -13,7 +13,7 @@ namespace FunkySheep.Maps
         public FunkySheep.Maps.Types.MapPositionRounded mapPositionRounded;
         public FunkySheep.States.State nextState;
 
-        public override void StartedState(Manager manager)
+        public override void Start()
         {
             mapPosition.Value.x = (float)((gpsCoordinates.Value.y + 180.0) / 360.0 * (1 << zoomLevel.Value));
             mapPosition.Value.y = (float)((1.0 - math.log(math.tan(gpsCoordinates.Value.x * math.PI / 180.0) + 1.0 / math.cos(gpsCoordinates.Value.x * math.PI / 180.0)) / math.PI) / 2.0 * (1 << zoomLevel.Value));
@@ -25,9 +25,18 @@ namespace FunkySheep.Maps
                     y = (int)math.floor(mapPosition.Value.y),
                 };
 
-            base.StartedState(manager);
             if (nextState)
-                SwitchState(nextState);
+                manager.AddState(nextState);
+
+            manager.RemoveState(this);
+        }
+
+        public override void Update()
+        {
+        }
+
+        public override void Stop()
+        {
         }
     }
 }

@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f25be476ed2a734c9ee93dd89aef137, type: 3}
   m_Name: Terrain - Download Tiles
   m_EditorClassIdentifier: 
-  dependencies: []
+  parents:
+  - state: {fileID: 11400000, guid: 0ea971b6b74a6de428059d9763cc13d3, type: 2}
+    start: 1
+    update: 0
+    stop: 0
+  children: []
+  started: 0
   manager: {fileID: 0}
   heightsUrl: {fileID: 11400000, guid: f8a62c7e42095804f9f35f6c1af015a2, type: 2}
   diffuseUrl: {fileID: 11400000, guid: 4b78d658cc010a24cb3d6fdba9463ded, type: 2}

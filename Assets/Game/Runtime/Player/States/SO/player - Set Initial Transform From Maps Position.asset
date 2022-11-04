@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8262ded62b82d98439f15217bc23e0f2, type: 3}
   m_Name: player - Set Initial Transform From Maps Position
   m_EditorClassIdentifier: 
-  dependencies: []
+  parents:
+  - state: {fileID: 11400000, guid: bfabd8340e69e3e4999e1e43ecd41a4d, type: 2}
+    start: 1
+    update: 0
+    stop: 0
+  children: []
+  started: 0
   manager: {fileID: 0}
   initalMapPositionRounded: {fileID: 11400000, guid: 5c883b419299b66479473e64f5354ef5,
     type: 2}

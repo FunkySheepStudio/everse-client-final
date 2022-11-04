@@ -1,10 +1,9 @@
 using UnityEngine;
-using FunkySheep.States;
 
-namespace FunkySheep.Gps.States
+namespace FunkySheep.States
 {
-    [CreateAssetMenu(menuName = "FunkySheep/Gps/States/Running")]
-    public class Running : State
+    [CreateAssetMenu(menuName = "FunkySheep/States/Empty")]
+    public class EmptyState : State
     {
         public override void Start()
         {

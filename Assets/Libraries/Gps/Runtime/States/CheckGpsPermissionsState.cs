@@ -8,21 +8,26 @@ namespace FunkySheep.Gps.States
     public class CheckDevicePermissionsState : State
     {
         public State inputLocationServicesState;
-        public override void StartedState(FunkySheep.States.Manager manager)
+
+        public override void Start()
         {
             if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
             {
                 Permission.RequestUserPermission(Permission.FineLocation);
             }
-            base.StartedState(manager);
         }
 
         public override void Update()
         {
             if (Permission.HasUserAuthorizedPermission(Permission.FineLocation) && Input.location.isEnabledByUser)
             {
-                SwitchState(inputLocationServicesState);
+                manager.AddState(inputLocationServicesState);
+                manager.RemoveState(this);
             }
+        }
+
+        public override void Stop()
+        {
         }
     }
 }

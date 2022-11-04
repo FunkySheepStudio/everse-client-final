@@ -10,11 +10,21 @@ namespace FunkySheep.Gps.States
     {
         public FunkySheep.Earth.Types.GpsCoordinates emulatedCoordinates;
         public FunkySheep.Earth.Types.GpsCoordinates gpsCoordinates;
+        public FunkySheep.States.State runningState;
 
-        public override void StartedState(FunkySheep.States.Manager manager)
+        public override void Start()
         {
             gpsCoordinates.Value = emulatedCoordinates.Value;
-            base.StartedState(manager);
+            manager.AddState(runningState);
+            manager.RemoveState(this);
+        }
+
+        public override void Stop()
+        {
+        }
+
+        public override void Update()
+        {
         }
     }
 }

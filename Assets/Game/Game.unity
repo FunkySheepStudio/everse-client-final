@@ -167,10 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e00e34730fc6a4d878d710aea7c70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingState: {fileID: 11400000, guid: 42f749d249d2c4649a6c008fe7bd896f, type: 2}
-  currentState: {fileID: 0}
-  consumers:
-  - {fileID: 1260707324}
+  states:
+  - {fileID: 11400000, guid: 42f749d249d2c4649a6c008fe7bd896f, type: 2}
 --- !u!1 &495456249
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,9 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e00e34730fc6a4d878d710aea7c70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingState: {fileID: 11400000, guid: a8a0fc9b85d92cc409d1dc4c176b5f89, type: 2}
-  currentState: {fileID: 0}
-  consumers: []
+  states:
+  - {fileID: 11400000, guid: 5e65b31883697bb489d726c8925e8fb1, type: 2}
 --- !u!1 &906388586
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,11 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e00e34730fc6a4d878d710aea7c70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingState: {fileID: 11400000, guid: 01b4cca95fdffeb4aac9319cd8f959a1, type: 2}
-  currentState: {fileID: 0}
-  consumers:
-  - {fileID: 495456251}
-  - {fileID: 1030354981}
+  states:
+  - {fileID: 11400000, guid: 040ca1fc0517fcb4db41d9d3ea41030e, type: 2}
 --- !u!1 &1030354979
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,9 +434,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e00e34730fc6a4d878d710aea7c70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingState: {fileID: 11400000, guid: ab9dd3f573f3a344a9b1837be283ab22, type: 2}
-  currentState: {fileID: 0}
-  consumers: []
+  states:
+  - {fileID: 11400000, guid: 2cf164ab2b640134399a0790e4d0799b, type: 2}
 --- !u!1 &1260707322
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,10 +480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e00e34730fc6a4d878d710aea7c70f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingState: {fileID: 11400000, guid: 83c9d6032bbf4a148a35395e94ff19e3, type: 2}
-  currentState: {fileID: 0}
-  consumers:
-  - {fileID: 966390096}
+  states:
+  - {fileID: 11400000, guid: cc29b487c63dd324cb33be56418a93c7, type: 2}
 --- !u!1 &1750629278
 GameObject:
   m_ObjectHideFlags: 0

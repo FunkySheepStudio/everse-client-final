@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e93edc13b3fc974d9a93a87ace28c26, type: 3}
   m_Name: gps-input-location-services
   m_EditorClassIdentifier: 
-  onEnterState: {fileID: 0}
-  onExitState: {fileID: 0}
+  parents: []
+  children: []
+  started: 0
   manager: {fileID: 0}
+  gpsCoordinates: {fileID: 11400000, guid: 42277c07ae278fa4bae90e5367abe26f, type: 2}
   runningState: {fileID: 11400000, guid: 6e971bc5302a3ee4aa62eec4ae7f745f, type: 2}

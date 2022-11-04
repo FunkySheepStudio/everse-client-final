@@ -12,7 +12,7 @@ namespace FunkySheep.Maps
         public FunkySheep.Maps.Types.TileSize tileSize;
         public FunkySheep.States.State nextState;
 
-        public override void StartedState(Manager manager)
+        public override void Start()
         {
             Transform transform = manager.GetComponent<Transform>();
             transform.position = new Vector3
@@ -22,9 +22,18 @@ namespace FunkySheep.Maps
                 z = (initalMapPositionRounded.Value.y - mapPosition.Value.y + 1) * tileSize.Value, // Tile start on top
             };
 
-            base.StartedState(manager);
             if (nextState)
-                SwitchState(nextState);
+                manager.AddState(nextState);
+
+            manager.RemoveState(this);
+        }
+
+        public override void Stop()
+        {
+        }
+
+        public override void Update()
+        {
         }
     }
 }

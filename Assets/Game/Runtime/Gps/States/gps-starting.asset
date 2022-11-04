@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e527b20473aeec54bb14091c7807ff98, type: 3}
   m_Name: gps-starting
   m_EditorClassIdentifier: 
-  dependencies: []
+  parents: []
+  children: []
+  started: 1
   manager: {fileID: 0}
-  emulateGps: 0
+  emulateGps: 1
   waitingUnityRemoteState: {fileID: 11400000, guid: 3faee60df5eebaf46ae9c51fae36d2fe,
     type: 2}
   checkDevicePermissionsState: {fileID: 11400000, guid: 29ec4255e32710f4e81c8da646122f79,

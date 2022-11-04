@@ -10,20 +10,30 @@ namespace FunkySheep.Gps.States
         public State waitingUnityRemoteState;
         public State checkDevicePermissionsState;
         public State emulatingState;
-        public override void StartedState(FunkySheep.States.Manager manager)
+
+        public override void Start()
         {
-            base.StartedState(manager);
             if (emulateGps)
             {
-                SwitchState(emulatingState);
-                return;
+                manager.AddState(emulatingState);
             }
-
+            else
+            {
 #if UNITY_EDITOR
-            SwitchState(waitingUnityRemoteState);
+                manager.AddState(waitingUnityRemoteState);
 #else
-            SwitchState(checkDevicePermissionsState);
+                manager.AddState(checkDevicePermissionsState);
 #endif
+            }
+            manager.RemoveState(this);
+        }
+
+        public override void Stop()
+        {
+        }
+
+        public override void Update()
+        {
         }
     }
 }

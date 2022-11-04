@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abad3d7c178234408ee4e9a90f31b0c, type: 3}
   m_Name: map - Calculate Initial Position
   m_EditorClassIdentifier: 
-  dependencies: []
+  parents:
+  - state: {fileID: 11400000, guid: 6e971bc5302a3ee4aa62eec4ae7f745f, type: 2}
+    start: 1
+    update: 0
+    stop: 0
+  children: []
+  started: 1
   manager: {fileID: 0}
   gpsCoordinates: {fileID: 11400000, guid: 42277c07ae278fa4bae90e5367abe26f, type: 2}
   zoomLevel: {fileID: 11400000, guid: 8b76ae6caf2225c40be90e5d7ce27c7d, type: 2}

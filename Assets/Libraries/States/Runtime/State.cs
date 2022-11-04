@@ -3,51 +3,84 @@ using UnityEngine;
 
 namespace FunkySheep.States
 {
-    [CreateAssetMenu(menuName = "FunkySheep/States/State")]
-    public class State : ScriptableObject
+    public abstract class State : ScriptableObject
     {
-        public List<State> dependencies;
+        public List<Dependecy> parents;
+        public List<Dependecy> children;
+        public bool started;
         [HideInInspector]
         public Manager manager;
 
-        public virtual void SwitchState(State state)
+        private void OnEnable()
         {
-            ExitedState();
-            state.StartedState(manager);
+            started = false;
+            children = new List<Dependecy>();
         }
 
-        public virtual void StartedState(Manager manager)
+        public void Init(Manager manager)
         {
             this.manager = manager;
-            this.manager.currentState = this;
-            foreach (Manager consumer in manager.consumers)
+            this.started = false;
+            foreach (Dependecy parent in parents)
             {
-                consumer.currentState.OnDependencyEnterState(this);
+                parent.state.children.Add(new Dependecy
+                {
+                    state = this,
+                    start = parent.start,
+                    update = parent.update,
+                    stop = parent.stop
+                });
             }
         }
 
-        public virtual void OnDependencyEnterState(State state)
+        public void PreStart()
         {
-            if (!dependencies.Contains(state))
+            if (started)
                 return;
-        }
 
-        public virtual void OnDependencyExitState(State state)
-        {
-            if (!dependencies.Contains(state))
-                return;
-        }
-
-        public virtual void ExitedState()
-        {
-            foreach (Manager consumer in manager.consumers)
+            foreach (Dependecy parent in parents)
             {
-                consumer.currentState.OnDependencyExitState(this);
+                if (parent.start && !parent.state.started)
+                    return;
+            }
+
+            Start();
+            PostStart();
+        }
+
+        public abstract void Start();
+
+        void PostStart()
+        {
+            this.started = true;
+            foreach (Dependecy child in children)
+            {
+                if (child.start)
+                    child.state.PreStart();
             }
         }
 
-        public virtual void Update()
+        public abstract void Update();
+
+        public void PreStop()
         {
+            if (!started)
+                return;
+
+            Stop();
+            PostStop();
+        }
+
+        public abstract void Stop();
+
+        void PostStop()
+        {
+            this.started = false;
+            foreach (Dependecy child in children)
+            {
+                if (child.stop)
+                    child.state.PreStop();
+            }
         }
     }
 }

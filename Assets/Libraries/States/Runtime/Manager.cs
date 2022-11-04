@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FunkySheep.States
@@ -6,24 +7,44 @@ namespace FunkySheep.States
     [AddComponentMenu("FunkySheep/States/Manager")]
     public class Manager : MonoBehaviour
     {
-        public State startingState;
-        public State currentState;
-        public List<Manager> consumers;
+        public List<State> states;
 
         private void Awake()
         {
-            currentState = startingState;
+            foreach (State state in states)
+            {
+                state.Init(this);
+            }
         }
 
         private void Start()
         {
-            startingState.StartedState(this);
+            foreach (State state in states.ToList())
+            {
+                state.PreStart();
+            }
         }
 
         private void Update()
         {
-            if (currentState)
-                currentState.Update();
+            foreach (State state in states.ToList())
+            {
+                if (state.started)
+                    state.Update();
+            }
+        }
+
+        public void AddState(State state)
+        {
+            states.Add(state);
+            state.Init(this);
+            state.PreStart();
+        }
+
+        public void RemoveState(State state)
+        {
+            state.PreStop();
+            states.Remove(state);
         }
     }
 }

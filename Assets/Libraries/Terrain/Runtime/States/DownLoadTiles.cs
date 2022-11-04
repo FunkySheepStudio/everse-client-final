@@ -16,9 +16,13 @@ namespace FunkySheep.Terrain
         public Types.TileList currentTiles;
         public GameObject tilePrefab;
 
+        public override void Start()
+        {
+            currentTiles.tiles.Clear();
+        }
+
         public override void Update()
         {
-            base.Update();
             Download(mapPosition.Value);
             Download(mapPosition.Value + new int2 { x = 0, y = 1 });
             Download(mapPosition.Value + new int2 { x = 1, y = 0 });
@@ -70,6 +74,10 @@ namespace FunkySheep.Terrain
 
             GameObject tileGo = GameObject.Instantiate(tilePrefab, manager.transform);
             tileGo.GetComponent<Tile>().Init(tile);
+        }
+
+        public override void Stop()
+        {
         }
     }
 }

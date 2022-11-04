@@ -13,13 +13,17 @@ namespace FunkySheep.Maps
         public FunkySheep.Maps.Types.TileSize tileSize;
         public FunkySheep.States.State nextState;
 
-        public override void StartedState(Manager manager)
+        public override void Start()
         {
             tileSize.Value = (float)(156543.03 / math.pow(2, zoomLevel.Value) * math.cos(math.PI * 2 / 360 * gpsCoordinates.Value.y) * 256);
+        }
 
-            base.StartedState(manager);
-            if (nextState)
-                SwitchState(nextState);
+        public override void Update()
+        {
+        }
+
+        public override void Stop()
+        {
         }
     }
 }
