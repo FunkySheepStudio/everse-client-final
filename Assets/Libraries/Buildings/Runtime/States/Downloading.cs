@@ -10,6 +10,7 @@ namespace FunkySheep.Buildings.States
     {
         public FunkySheep.Types.String url;
         public FunkySheep.Maps.Types.MapPositionRounded mapPosition;
+        public FunkySheep.Maps.Types.MapPositionRounded initialMapPosition;
         public FunkySheep.Maps.Types.ZoomLevel zoomLevel;
         public FunkySheep.Maps.Types.TileSize tileSize;
         public Types.TileList currentTiles;
@@ -53,17 +54,28 @@ namespace FunkySheep.Buildings.States
 
                 for (int i = 0; i < tile.data.elements.Length; i++)
                 {
-                    for (int j = 0; j < tile.data.elements[i].geometry.Length; j++)
+                    if (tile.data.elements[i].geometry != null)
                     {
-                        double2 gpsCoordinates = new double2
+                        for (int j = 0; j < tile.data.elements[i].geometry.Length; j++)
                         {
-                            x = tile.data.elements[i].geometry[j].lat,
-                            y = tile.data.elements[i].geometry[j].lon
-                        };
+                            double2 gpsCoordinates = new double2
+                            {
+                                x = tile.data.elements[i].geometry[j].lat,
+                                y = tile.data.elements[i].geometry[j].lon
+                            };
 
-                        float3 position = GetWorldPosition(gpsCoordinates);
-                        GameObject pointGo = GameObject.Instantiate(prefab, manager.transform);
-                        pointGo.transform.position = position;
+                            double2 nextgpsCoordinates = new double2
+                            {
+                                x = tile.data.elements[i].geometry[(j + 1) % tile.data.elements[i].geometry.Length].lat,
+                                y = tile.data.elements[i].geometry[(j + 1) % tile.data.elements[i].geometry.Length].lon
+                            };
+
+                            float3 position = GpsToMapReal(gpsCoordinates.x, gpsCoordinates.y) * tileSize.Value;
+                            float3 nextposition = GpsToMapReal(nextgpsCoordinates.x, nextgpsCoordinates.y) * tileSize.Value;
+
+                            Debug.DrawLine(position, nextposition, Color.red, 10000);
+
+                        }
                     }
                 }
             }));
@@ -100,21 +112,18 @@ namespace FunkySheep.Buildings.States
         }
 
         /// <summary>
-        /// Return the world position given GPS Coordinates
+        /// Get the map tile position depending on zoom level and GPS postions
+        /// https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Lon..2Flat._to_tile_numbers
         /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
         /// <returns></returns>
-        public float3 GetWorldPosition(double2 gpsCoordinates)
+        public Vector3 GpsToMapReal(double latitude, double longitude)
         {
-            float2 calculatedMapPosition = Earth.Utils.GpsToMapRealFloat2(zoomLevel.Value, gpsCoordinates);
-            float2 mapOffset = calculatedMapPosition - mapPosition.Value;
+            Vector3 p = new Vector3();
+            p.x = (float)(((longitude + 180.0) / 360.0 * (1 << zoomLevel.Value)) - initialMapPosition.Value.x);
+            p.z = initialMapPosition.Value.y - (float)(((1.0 - math.log(math.tan(latitude * math.PI / 180.0) +
+              1.0 / math.cos(latitude * math.PI / 180.0)) / math.PI) / 2.0 * (1 << zoomLevel.Value)) - 1);
 
-            return new float3(
-                mapOffset.x * tileSize.Value,
-            0,
-                 tileSize.Value - mapOffset.y * tileSize.Value // Since map coordinates are reversed on Y axis
-            );
+            return p;
         }
 
         public override void Stop()
