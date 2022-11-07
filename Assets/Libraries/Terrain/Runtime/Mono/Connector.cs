@@ -1,3 +1,8 @@
+using Unity.Collections;
+using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Transforms;
 using UnityEngine;
 
 namespace FunkySheep.Terrain
@@ -10,6 +15,13 @@ namespace FunkySheep.Terrain
         public bool topConnected = false;
         public bool leftConnected = false;
         public bool cornerConnected = false;
+
+        EntityManager entityManager;
+
+        private void Awake()
+        {
+            entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        }
 
         private void Start()
         {
@@ -44,6 +56,7 @@ namespace FunkySheep.Terrain
 
             if (cornerConnected && leftConnected && topConnected)
             {
+                CreateEcsCollider();
                 enabled = false;
             }
         }
@@ -112,6 +125,53 @@ namespace FunkySheep.Terrain
             terrain.topNeighbor.leftNeighbor.terrainData.SyncHeightmap();
 
             cornerConnected = true;
+        }
+
+        public void CreateEcsCollider()
+        {
+            var physicsCollider = new PhysicsCollider();
+            var size = new int2(terrainData.heightmapResolution, terrainData.heightmapResolution);
+            var scale = terrainData.heightmapScale;
+
+            var colliderHeights = new NativeArray<float>(terrainData.heightmapResolution * terrainData.heightmapResolution,
+                Allocator.TempJob);
+
+            var terrainHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution,
+                terrainData.heightmapResolution);
+
+
+            for (int y = 0; y < size.y; y++)
+                for (int x = 0; x < size.x; x++)
+                {
+                    var height = terrainHeights[x, y];
+                    colliderHeights[y + x * size.x] = height;
+                }
+
+            physicsCollider.Value = Unity.Physics.TerrainCollider.Create(colliderHeights, size, scale, Unity.Physics.TerrainCollider.CollisionMethod.Triangles);
+
+            /*physicsCollider.Value = Unity.Physics.BoxCollider.Create(new BoxGeometry
+            {
+                Center = float3.zero,
+                BevelRadius = 0.05f,
+                Orientation = quaternion.identity,
+                Size = new float3(1000, 400, 1000)
+            });*/
+
+            colliderHeights.Dispose();
+
+            EntityCommandBufferSystem ecbSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<EndSimulationEntityCommandBufferSystem>();
+            EntityCommandBuffer buffer = ecbSystem.CreateCommandBuffer();
+
+            Entity entity = buffer.CreateEntity();
+
+            LocalToWorld localToWorld = new LocalToWorld
+            {
+                Value = transform.localToWorldMatrix
+            };
+
+            buffer.AddComponent<LocalToWorld>(entity, localToWorld);
+            buffer.AddComponent<PhysicsCollider>(entity, physicsCollider);
+            buffer.AddSharedComponent<PhysicsWorldIndex>(entity, new PhysicsWorldIndex { Value = 0});
         }
     }
 }

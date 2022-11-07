@@ -50,7 +50,7 @@ namespace FunkySheep.Buildings.States
             {
                 string fileStr = System.Text.Encoding.Default.GetString(file);
                 tile.waysRoot = JsonUtility.FromJson<Types.JsonOsmWays>(fileStr);
-                tile.ConvertWays(tileSize.Value, zoomLevel.Value, initialMapPosition.Value, prefab);
+                //tile.ConvertWays(tileSize.Value, zoomLevel.Value, initialMapPosition.Value, prefab);
             }));
 
             string relationsUrl = InterpolatedUrl(tileMapPosition, relationsUrlTemplate);
