@@ -30,9 +30,6 @@ namespace FunkySheep.Terrain
 
             terrain.terrainData = new TerrainData();
             GetComponent<UnityEngine.TerrainCollider>().terrainData = terrain.terrainData;
-
-            //DownloadHeights();
-            //DownloadDiffuse();
         }
 
         public void Init(TileData tile)
