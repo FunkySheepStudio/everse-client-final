@@ -1,5 +1,3 @@
-using FunkySheep.Earth.Types;
-using FunkySheep.Maps.Types;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -8,13 +6,15 @@ namespace FunkySheep.Buildings.States
     [CreateAssetMenu(menuName = "FunkySheep/Buildings/States/Downloading")]
     public class Downloading : FunkySheep.States.State
     {
-        public FunkySheep.Types.String url;
+        public FunkySheep.Types.String waysUrlTemplate;
+        public FunkySheep.Types.String relationsUrlTemplate;
         public FunkySheep.Maps.Types.MapPositionRounded mapPosition;
         public FunkySheep.Maps.Types.MapPositionRounded initialMapPosition;
         public FunkySheep.Maps.Types.ZoomLevel zoomLevel;
         public FunkySheep.Maps.Types.TileSize tileSize;
         public Types.TileList currentTiles;
         public GameObject prefab;
+
 
         public override void Start()
         {
@@ -45,39 +45,19 @@ namespace FunkySheep.Buildings.States
             tile = new Types.TileData(tileMapPosition);
             currentTiles.tiles.Add(tile);
 
-            string tileUrl = InterpolatedUrl(tileMapPosition);
-
-            manager.StartCoroutine(FunkySheep.Network.Downloader.Download(tileUrl, (fileID, file) =>
+            string waysUrl = InterpolatedUrl(tileMapPosition, waysUrlTemplate);
+            manager.StartCoroutine(FunkySheep.Network.Downloader.Download(waysUrl, (fileID, file) =>
             {
                 string fileStr = System.Text.Encoding.Default.GetString(file);
-                tile.data = JsonUtility.FromJson<Types.JsonOsmRoot>(fileStr);
+                tile.waysRoot = JsonUtility.FromJson<Types.JsonOsmWays>(fileStr);
+                tile.ConvertWays(tileSize.Value, zoomLevel.Value, initialMapPosition.Value, prefab);
+            }));
 
-                for (int i = 0; i < tile.data.elements.Length; i++)
-                {
-                    if (tile.data.elements[i].geometry != null)
-                    {
-                        for (int j = 0; j < tile.data.elements[i].geometry.Length; j++)
-                        {
-                            double2 gpsCoordinates = new double2
-                            {
-                                x = tile.data.elements[i].geometry[j].lat,
-                                y = tile.data.elements[i].geometry[j].lon
-                            };
-
-                            double2 nextgpsCoordinates = new double2
-                            {
-                                x = tile.data.elements[i].geometry[(j + 1) % tile.data.elements[i].geometry.Length].lat,
-                                y = tile.data.elements[i].geometry[(j + 1) % tile.data.elements[i].geometry.Length].lon
-                            };
-
-                            float3 position = GpsToMapReal(gpsCoordinates.x, gpsCoordinates.y) * tileSize.Value;
-                            float3 nextposition = GpsToMapReal(nextgpsCoordinates.x, nextgpsCoordinates.y) * tileSize.Value;
-
-                            Debug.DrawLine(position, nextposition, Color.red, 10000);
-
-                        }
-                    }
-                }
+            string relationsUrl = InterpolatedUrl(tileMapPosition, relationsUrlTemplate);
+            manager.StartCoroutine(FunkySheep.Network.Downloader.Download(relationsUrl, (fileID, file) =>
+            {
+                string fileStr = System.Text.Encoding.Default.GetString(file);
+                tile.relationsRoot = JsonUtility.FromJson<Types.JsonOsmRelations>(fileStr);
             }));
         }
 
@@ -86,7 +66,7 @@ namespace FunkySheep.Buildings.States
         /// </summary>
         /// <param boundaries="boundaries">The gps boundaries to download in</param>
         /// <returns>The interpolated Url</returns>
-        public string InterpolatedUrl(int2 tileMapPosition)
+        public string InterpolatedUrl(int2 tileMapPosition, FunkySheep.Types.String url)
         {
             double4 gpsBoundaries = FunkySheep.Earth.Utils.CaclulateGpsBoundaries(
                 zoomLevel.Value,
@@ -109,21 +89,6 @@ namespace FunkySheep.Buildings.States
             parametersNames[3] = "endLongitude";
 
             return url.Interpolate(parameters, parametersNames);
-        }
-
-        /// <summary>
-        /// Get the map tile position depending on zoom level and GPS postions
-        /// https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Lon..2Flat._to_tile_numbers
-        /// </summary>
-        /// <returns></returns>
-        public Vector3 GpsToMapReal(double latitude, double longitude)
-        {
-            Vector3 p = new Vector3();
-            p.x = (float)(((longitude + 180.0) / 360.0 * (1 << zoomLevel.Value)) - initialMapPosition.Value.x);
-            p.z = initialMapPosition.Value.y - (float)(((1.0 - math.log(math.tan(latitude * math.PI / 180.0) +
-              1.0 / math.cos(latitude * math.PI / 180.0)) / math.PI) / 2.0 * (1 << zoomLevel.Value)) - 1);
-
-            return p;
         }
 
         public override void Stop()

@@ -20,10 +20,12 @@ MonoBehaviour:
   children: []
   started: 0
   manager: {fileID: 0}
-  url: {fileID: 11400000, guid: 4a117d534ca69be489643a265d028a24, type: 2}
+  waysUrlTemplate: {fileID: 11400000, guid: 4a117d534ca69be489643a265d028a24, type: 2}
+  relationsUrlTemplate: {fileID: 11400000, guid: d5254b3ef219eeb418d9543c4da7e9e0,
+    type: 2}
   mapPosition: {fileID: 11400000, guid: eff0c1a1f1de2f041bc50e111e49e879, type: 2}
   initialMapPosition: {fileID: 11400000, guid: 5c883b419299b66479473e64f5354ef5, type: 2}
   zoomLevel: {fileID: 11400000, guid: 8b76ae6caf2225c40be90e5d7ce27c7d, type: 2}
   tileSize: {fileID: 11400000, guid: 02fdcd12335e8834b81eb92ffe6027d2, type: 2}
   currentTiles: {fileID: 11400000, guid: 941707e569e842e4e908ee1f4f1d4148, type: 2}
-  prefab: {fileID: 3423171914911649145, guid: 6ea06f6ce22076742b76b3ac213152dd, type: 3}
+  prefab: {fileID: 6586170979371369567, guid: 6ea06f6ce22076742b76b3ac213152dd, type: 3}
