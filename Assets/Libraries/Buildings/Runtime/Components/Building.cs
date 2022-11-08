@@ -5,7 +5,7 @@ namespace FunkySheep.Buildings.Components
 {
     public struct Building : IComponentData, IEnableableComponent
     {
-        public float3 center;
+        public double2 center;
         public float minHeight;
         public float maxHeight;
     }

@@ -7,9 +7,11 @@ using FunkySheep.Maps.Components;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine;
 using System.Linq;
+using FunkySheep.Geometry.Components.Tags;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateAfter(typeof(CalculatePointsCounterClockwise))]
     public partial class CalculatePointsCoordinates : SystemBase
     {
         protected override void OnUpdate()
@@ -70,12 +72,8 @@ namespace FunkySheep.Buildings.Systems
                         {
                             building.maxHeight = point.y;
                         }
-
-                        building.center += point;
                     }
                 }
-
-                building.center /= points.Length;
 
                 buffer.RemoveComponent<GPSCoordinates>(entity);
                 buffer.SetComponentEnabled<Walls>(entity, true);
@@ -88,12 +86,20 @@ namespace FunkySheep.Buildings.Systems
 
         public void OnDrawGizmos()
         {
-            Entities.ForEach((in Walls wall, in DynamicBuffer<Points> points) =>
+            Entities.ForEach((in Walls wall, in DynamicBuffer<Points> points, in Building building) =>
             {
-                Gizmos.color = Color.red;
-
                 for (int i = 0; i < points.Length; i++)
                 {
+                    if (i == 0)
+                    {
+                        Gizmos.color = Color.blue;
+                        Gizmos.DrawCube(points[i].Value, Vector3.one * 3);
+                    } else
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                        
+
                     Gizmos.DrawLine(points[i].Value, points[(i + 1) % points.Length].Value);
                 }
             })

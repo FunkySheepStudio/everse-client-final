@@ -12,7 +12,6 @@ namespace FunkySheep.Terrain
 {
     [AddComponentMenu("FunkySheep/Earth/Terrain/Tile")]
     [RequireComponent(typeof(UnityEngine.Terrain))]
-    [RequireComponent(typeof(UnityEngine.TerrainCollider))]
     public class Tile : MonoBehaviour
     {
         public MapPositionRounded initialMapPosition;
@@ -29,7 +28,6 @@ namespace FunkySheep.Terrain
             terrain.materialTemplate = Instantiate<Material>(material);
 
             terrain.terrainData = new TerrainData();
-            GetComponent<UnityEngine.TerrainCollider>().terrainData = terrain.terrainData;
         }
 
         public void Init(TileData tile)

@@ -1,8 +1,7 @@
-using FunkySheep.Earth.Types;
 using System;
 using Unity.Entities;
 using Unity.Mathematics;
-using UnityEngine;
+using FunkySheep.Geometry.Components.Tags;
 
 namespace FunkySheep.Buildings.Types
 {
@@ -25,38 +24,56 @@ namespace FunkySheep.Buildings.Types
 
             for (int i = 0; i < waysRoot.elements.Length; i++)
             {
-                Entity building = buffer.CreateEntity();
-                buffer.SetName(building, new Unity.Collections.FixedString64Bytes("Building - " + waysRoot.elements[i].id.ToString()));
-                buffer.AddComponent<FunkySheep.Buildings.Components.Building>(building);
-                buffer.AddComponent<FunkySheep.Buildings.Components.Tags.Walls>(building);
-                buffer.SetComponentEnabled<FunkySheep.Buildings.Components.Tags.Walls>(building, false);
+                SpawnBuilding(buffer, waysRoot.elements[i]);
+            }
+        }
 
-                DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
+        void SpawnBuilding(EntityCommandBuffer buffer, JsonOsmWay way)
+        {
+            Entity building = buffer.CreateEntity();
+            buffer.AddComponent<FunkySheep.Buildings.Components.Building>(building);
+            buffer.AddComponent<RemoveColinearPoints>(building);
+            buffer.AddComponent<SetPointsCenter>(building);
+            buffer.AddComponent<SetPointsOrder>(building);
+            buffer.AddComponent<SetPointsCounterClockWise>(building);
+            buffer.AddComponent<FunkySheep.Buildings.Components.Tags.Walls>(building);
+            buffer.SetComponentEnabled<FunkySheep.Buildings.Components.Tags.Walls>(building, false);
 
-                for (int j = 0; j < waysRoot.elements[i].geometry.Length; j++)
+            DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
+
+            for (int i = 0; i < way.geometry.Length; i++)
+            {
+                if (!way.geometry[(i + 1) % way.geometry.Length].Equals(way.geometry[i]))
                 {
-                    if (!waysRoot.elements[i].geometry[(j + 1) % waysRoot.elements[i].geometry.Length].Equals(waysRoot.elements[i].geometry[j]))
+                    FunkySheep.Earth.Components.GPSCoordinate gpsCoordinate = new FunkySheep.Earth.Components.GPSCoordinate
                     {
-                        FunkySheep.Earth.Components.GPSCoordinate gpsCoordinate = new FunkySheep.Earth.Components.GPSCoordinate
+                        Value = new double2
                         {
-                            Value = new double2
-                            {
-                                x = waysRoot.elements[i].geometry[j].lat,
-                                y = waysRoot.elements[i].geometry[j].lon
-                            }
-                        };
+                            x = way.geometry[i].lat,
+                            y = way.geometry[i].lon
+                        }
+                    };
 
-                        gPSCoordinates.Add(new Earth.Components.GPSCoordinates
-                        {
-                            Value = gpsCoordinate
-                        });
-                    }
+                    gPSCoordinates.Add(new Earth.Components.GPSCoordinates
+                    {
+                        Value = gpsCoordinate
+                    });
                 }
             }
         }
 
         public void SpawnRelationsEntities()
         {
+            EntityCommandBufferSystem ecbSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<EndSimulationEntityCommandBufferSystem>();
+            EntityCommandBuffer buffer = ecbSystem.CreateCommandBuffer();
+
+            for (int i = 0; i < relationsRoot.elements.Length; i++)
+            {
+                for (int j = 0; j < relationsRoot.elements[i].members.Length; j++)
+                {
+                    SpawnBuilding(buffer, relationsRoot.elements[i].members[j]);
+                }
+            }
         }
     }
 }

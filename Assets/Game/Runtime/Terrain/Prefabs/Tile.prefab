@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6030796052101685349}
   - component: {fileID: 3022462532737707433}
-  - component: {fileID: 3757629634623757463}
   - component: {fileID: 7404073570404786480}
   m_Layer: 0
   m_Name: Tile
@@ -72,26 +71,6 @@ Terrain:
   m_AllowAutoConnect: 1
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
---- !u!154 &3757629634623757463
-TerrainCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121857475319732502}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: c2fa0e4b40ca960409a20f1929dfeb3c, type: 2}
-  m_EnableTreeColliders: 1
 --- !u!114 &7404073570404786480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,70 +87,3 @@ MonoBehaviour:
   tileSize: {fileID: 11400000, guid: 02fdcd12335e8834b81eb92ffe6027d2, type: 2}
   heightUpdated: 0
   material: {fileID: 2100000, guid: e738989a264a2ee4384bb6da605f999b, type: 2}
-  belongsTo:
-    Category00: 1
-    Category01: 1
-    Category02: 1
-    Category03: 1
-    Category04: 1
-    Category05: 1
-    Category06: 1
-    Category07: 1
-    Category08: 1
-    Category09: 1
-    Category10: 1
-    Category11: 1
-    Category12: 1
-    Category13: 1
-    Category14: 1
-    Category15: 1
-    Category16: 1
-    Category17: 1
-    Category18: 1
-    Category19: 1
-    Category20: 1
-    Category21: 1
-    Category22: 1
-    Category23: 1
-    Category24: 1
-    Category25: 1
-    Category26: 1
-    Category27: 1
-    Category28: 1
-    Category29: 1
-    Category30: 1
-    Category31: 1
-  collidesWith:
-    Category00: 1
-    Category01: 1
-    Category02: 1
-    Category03: 1
-    Category04: 1
-    Category05: 1
-    Category06: 1
-    Category07: 1
-    Category08: 1
-    Category09: 1
-    Category10: 1
-    Category11: 1
-    Category12: 1
-    Category13: 1
-    Category14: 1
-    Category15: 1
-    Category16: 1
-    Category17: 1
-    Category18: 1
-    Category19: 1
-    Category20: 1
-    Category21: 1
-    Category22: 1
-    Category23: 1
-    Category24: 1
-    Category25: 1
-    Category26: 1
-    Category27: 1
-    Category28: 1
-    Category29: 1
-    Category30: 1
-    Category31: 1
-  groupIndex: 0
