@@ -36,5 +36,9 @@ namespace FunkySheep.Maps
                 y = inititalMapPosition.Value.y - (int)math.floor(transform.position.z / tileSize.Value),
             };
         }
+
+        public override void OnDrawGizmos()
+        {
+        }
     }
 }

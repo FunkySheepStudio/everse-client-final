@@ -16,13 +16,6 @@ namespace FunkySheep.Terrain
         public bool leftConnected = false;
         public bool cornerConnected = false;
 
-        EntityManager entityManager;
-
-        private void Awake()
-        {
-            entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        }
-
         private void Start()
         {
             terrain = GetComponent<UnityEngine.Terrain>();
@@ -149,14 +142,6 @@ namespace FunkySheep.Terrain
 
             physicsCollider.Value = Unity.Physics.TerrainCollider.Create(colliderHeights, size, scale, Unity.Physics.TerrainCollider.CollisionMethod.Triangles);
 
-            /*physicsCollider.Value = Unity.Physics.BoxCollider.Create(new BoxGeometry
-            {
-                Center = float3.zero,
-                BevelRadius = 0.05f,
-                Orientation = quaternion.identity,
-                Size = new float3(1000, 400, 1000)
-            });*/
-
             colliderHeights.Dispose();
 
             EntityCommandBufferSystem ecbSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<EndSimulationEntityCommandBufferSystem>();
@@ -170,6 +155,7 @@ namespace FunkySheep.Terrain
             };
 
             buffer.AddComponent<LocalToWorld>(entity, localToWorld);
+            buffer.SetName(entity, new FixedString64Bytes(terrain.name + " Collider"));
             buffer.AddComponent<PhysicsCollider>(entity, physicsCollider);
             buffer.AddSharedComponent<PhysicsWorldIndex>(entity, new PhysicsWorldIndex { Value = 0});
         }

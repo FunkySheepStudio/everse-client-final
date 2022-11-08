@@ -17,6 +17,7 @@ namespace FunkySheep.Buildings.Types
     [System.Serializable]
     public struct JsonOsmWay
     {
+        public Int64 id;
         public string type;
         public JsonOsmGeometry[] geometry;
     }

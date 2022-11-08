@@ -50,6 +50,8 @@ namespace FunkySheep.States
 
         public abstract void Start();
 
+        public abstract void OnDrawGizmos();
+
         void PostStart()
         {
             this.started = true;

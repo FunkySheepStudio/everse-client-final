@@ -35,5 +35,9 @@ namespace FunkySheep.Maps
         public override void Update()
         {
         }
+
+        public override void OnDrawGizmos()
+        {
+        }
     }
 }

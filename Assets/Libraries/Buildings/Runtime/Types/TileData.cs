@@ -1,4 +1,6 @@
+using FunkySheep.Earth.Types;
 using System;
+using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -16,35 +18,45 @@ namespace FunkySheep.Buildings.Types
             this.position = position;
         }
 
-        public void ConvertWays(float tileSize, int zoom, int2 initialMapPosition, GameObject prefab)
+        public void SpawnWaysEntities()
         {
+            EntityCommandBufferSystem ecbSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<EndSimulationEntityCommandBufferSystem>();
+            EntityCommandBuffer buffer = ecbSystem.CreateCommandBuffer();
+
             for (int i = 0; i < waysRoot.elements.Length; i++)
             {
-                if (waysRoot.elements[i].geometry != null)
+                Entity building = buffer.CreateEntity();
+                buffer.SetName(building, new Unity.Collections.FixedString64Bytes("Building - " + waysRoot.elements[i].id.ToString()));
+                buffer.AddComponent<FunkySheep.Buildings.Components.Building>(building);
+                buffer.AddComponent<FunkySheep.Buildings.Components.Tags.Walls>(building);
+                buffer.SetComponentEnabled<FunkySheep.Buildings.Components.Tags.Walls>(building, false);
+
+                DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
+
+                for (int j = 0; j < waysRoot.elements[i].geometry.Length; j++)
                 {
-                    for (int j = 0; j < waysRoot.elements[i].geometry.Length; j++)
+                    if (!waysRoot.elements[i].geometry[(j + 1) % waysRoot.elements[i].geometry.Length].Equals(waysRoot.elements[i].geometry[j]))
                     {
-                        double2 gpsCoordinates = new double2
+                        FunkySheep.Earth.Components.GPSCoordinate gpsCoordinate = new FunkySheep.Earth.Components.GPSCoordinate
                         {
-                            x = waysRoot.elements[i].geometry[j].lat,
-                            y = waysRoot.elements[i].geometry[j].lon
+                            Value = new double2
+                            {
+                                x = waysRoot.elements[i].geometry[j].lat,
+                                y = waysRoot.elements[i].geometry[j].lon
+                            }
                         };
 
-                        double2 nextgpsCoordinates = new double2
+                        gPSCoordinates.Add(new Earth.Components.GPSCoordinates
                         {
-                            x = waysRoot.elements[i].geometry[(j + 1) % waysRoot.elements[i].geometry.Length].lat,
-                            y = waysRoot.elements[i].geometry[(j + 1) % waysRoot.elements[i].geometry.Length].lon
-                        };
-
-                        float3 position = Earth.Utils.GpsToMapRealOffseted(gpsCoordinates.x, gpsCoordinates.y, zoom, initialMapPosition) * tileSize;
-                        float3 nextposition = Earth.Utils.GpsToMapRealOffseted(nextgpsCoordinates.x, nextgpsCoordinates.y, zoom, initialMapPosition) * tileSize;
-
-                        Debug.DrawLine(position, nextposition, Color.red, 10000);
-                        GameObject.Instantiate(prefab, position, quaternion.identity);
-
+                            Value = gpsCoordinate
+                        });
                     }
                 }
             }
+        }
+
+        public void SpawnRelationsEntities()
+        {
         }
     }
 }

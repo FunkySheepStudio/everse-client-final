@@ -1,7 +1,7 @@
-using FunkySheep.States;
 using UnityEngine;
 using Unity.Mathematics;
-using FunkySheep.Earth.Types;
+using Unity.Entities;
+using FunkySheep.Maps.Components;
 
 namespace FunkySheep.Maps
 {
@@ -16,6 +16,14 @@ namespace FunkySheep.Maps
         public override void Start()
         {
             tileSize.Value = (float)(156543.03 / math.pow(2, zoomLevel.Value) * math.cos(math.PI * 2 / 360 * gpsCoordinates.Value.y) * 256);
+            EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            Entity tileSizeEntity = entityManager.CreateEntity();
+            entityManager.AddComponent<TileSize>(tileSizeEntity);
+            entityManager.SetComponentData<TileSize>(tileSizeEntity, new TileSize
+            {
+                Value = tileSize.Value
+            });
+
         }
 
         public override void Update()
@@ -23,6 +31,10 @@ namespace FunkySheep.Maps
         }
 
         public override void Stop()
+        {
+        }
+
+        public override void OnDrawGizmos()
         {
         }
     }

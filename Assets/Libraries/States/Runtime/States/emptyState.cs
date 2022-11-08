@@ -16,5 +16,9 @@ namespace FunkySheep.States
         public override void Update()
         {
         }
+
+        public override void OnDrawGizmos()
+        {
+        }
     }
 }

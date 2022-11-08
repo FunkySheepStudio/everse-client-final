@@ -57,13 +57,23 @@ namespace FunkySheep.Earth
         /// https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Lon..2Flat._to_tile_numbers
         /// </summary>
         /// <returns></returns>
-        public static float3 GpsToMapRealOffseted(double latitude, double longitude, int zoom, int2 initialMapPosition)
+        public static float3 GpsToMapRealRelative(double latitude, double longitude, int zoomLevel, int2 initialMapPosition)
         {
             float3 p = new float3();
-            p.x = (float)(((longitude + 180.0) / 360.0 * (1 << zoom)) - initialMapPosition.x);
-            p.z = (float)(initialMapPosition.y - ((1.0 - math.log(math.tan(latitude * math.PI / 180.0) + 1.0 / math.cos(latitude * math.PI / 180.0)) / math.PI) / 2.0 * (1 << zoom) - 1f));
+            p.x = (float)(((longitude + 180.0) / 360.0 * (1 << zoomLevel)) - initialMapPosition.x);
+            p.z = (float)(initialMapPosition.y - ((1.0 - math.log(math.tan(latitude * math.PI / 180.0) + 1.0 / math.cos(latitude * math.PI / 180.0)) / math.PI) / 2.0 * (1 << zoomLevel) - 1f));
 
             return p;
+        }
+
+        /// <summary>
+        /// Get the map tile position depending on zoom level and GPS postions
+        /// https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Lon..2Flat._to_tile_numbers
+        /// </summary>
+        /// <returns></returns>
+        public static float3 GpsToMapRealRelative(double2 gpsCoordinate, int zoomLevel, int2 initialMapPosition)
+        {
+            return GpsToMapRealRelative(gpsCoordinate.x, gpsCoordinate.y, zoomLevel, initialMapPosition);
         }
 
         /// <summary>

@@ -17,5 +17,9 @@ namespace FunkySheep.Gps.States
         public override void Update()
         {
         }
+
+        public override void OnDrawGizmos()
+        {
+        }
     }
 }

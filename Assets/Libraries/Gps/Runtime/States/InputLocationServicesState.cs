@@ -33,5 +33,9 @@ namespace FunkySheep.Gps.States
                 manager.RemoveState(this);
             }
         }
+
+        public override void OnDrawGizmos()
+        {
+        }
     }
 }

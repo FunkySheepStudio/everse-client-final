@@ -79,5 +79,9 @@ namespace FunkySheep.Terrain
         public override void Stop()
         {
         }
+
+        public override void OnDrawGizmos()
+        {
+        }
     }
 }

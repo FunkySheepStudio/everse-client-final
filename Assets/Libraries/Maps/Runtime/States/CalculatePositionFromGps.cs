@@ -1,6 +1,8 @@
 using FunkySheep.States;
 using UnityEngine;
 using Unity.Mathematics;
+using Unity.Entities;
+using FunkySheep.Maps.Components;
 
 namespace FunkySheep.Maps
 {
@@ -25,6 +27,26 @@ namespace FunkySheep.Maps
                     y = (int)math.floor(mapPosition.Value.y),
                 };
 
+            // Setting ECS parameters
+            EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            Entity zoomLevelEntity = entityManager.CreateEntity();
+            entityManager.AddComponent<ZoomLevel>(zoomLevelEntity);
+            entityManager.SetComponentData<ZoomLevel>(zoomLevelEntity, new ZoomLevel
+            {
+                Value = zoomLevel.Value
+            });
+
+            Entity tileSizeEntity = entityManager.CreateEntity();
+            entityManager.AddComponent<InitialMapPosition>(tileSizeEntity);
+            entityManager.SetComponentData<InitialMapPosition>(tileSizeEntity, new InitialMapPosition
+            {
+                Value = new int2
+                {
+                    x = (int)math.floor(mapPosition.Value.x),
+                    y = (int)math.floor(mapPosition.Value.y),
+                }
+            });
+
             if (nextState)
                 manager.AddState(nextState);
 
@@ -36,6 +58,10 @@ namespace FunkySheep.Maps
         }
 
         public override void Stop()
+        {
+        }
+
+        public override void OnDrawGizmos()
         {
         }
     }

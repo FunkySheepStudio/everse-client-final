@@ -46,5 +46,22 @@ namespace FunkySheep.States
             state.PreStop();
             states.Remove(state);
         }
+
+        private void OnDrawGizmos()
+        {
+            foreach (State state in states.ToList())
+            {
+                if (state.started)
+                    state.OnDrawGizmos();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            foreach (State state in states.ToList())
+            {
+                state.started = false;
+            }
+        }
     }
 }

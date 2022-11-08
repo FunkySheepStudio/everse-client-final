@@ -9,12 +9,9 @@ namespace FunkySheep.Buildings.States
         public FunkySheep.Types.String waysUrlTemplate;
         public FunkySheep.Types.String relationsUrlTemplate;
         public FunkySheep.Maps.Types.MapPositionRounded mapPosition;
-        public FunkySheep.Maps.Types.MapPositionRounded initialMapPosition;
         public FunkySheep.Maps.Types.ZoomLevel zoomLevel;
         public FunkySheep.Maps.Types.TileSize tileSize;
         public Types.TileList currentTiles;
-        public GameObject prefab;
-
 
         public override void Start()
         {
@@ -50,7 +47,7 @@ namespace FunkySheep.Buildings.States
             {
                 string fileStr = System.Text.Encoding.Default.GetString(file);
                 tile.waysRoot = JsonUtility.FromJson<Types.JsonOsmWays>(fileStr);
-                //tile.ConvertWays(tileSize.Value, zoomLevel.Value, initialMapPosition.Value, prefab);
+                tile.SpawnWaysEntities();
             }));
 
             string relationsUrl = InterpolatedUrl(tileMapPosition, relationsUrlTemplate);
@@ -58,6 +55,7 @@ namespace FunkySheep.Buildings.States
             {
                 string fileStr = System.Text.Encoding.Default.GetString(file);
                 tile.relationsRoot = JsonUtility.FromJson<Types.JsonOsmRelations>(fileStr);
+                tile.SpawnRelationsEntities();
             }));
         }
 
@@ -92,6 +90,10 @@ namespace FunkySheep.Buildings.States
         }
 
         public override void Stop()
+        {
+        }
+
+        public override void OnDrawGizmos()
         {
         }
     }
