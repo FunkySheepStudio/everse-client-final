@@ -19,6 +19,7 @@ namespace FunkySheep.Buildings.Types
     {
         public Int64 id;
         public string type;
+        public string role;
         public JsonOsmGeometry[] geometry;
     }
 

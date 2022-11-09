@@ -71,7 +71,8 @@ namespace FunkySheep.Buildings.Types
             {
                 for (int j = 0; j < relationsRoot.elements[i].members.Length; j++)
                 {
-                    SpawnBuilding(buffer, relationsRoot.elements[i].members[j]);
+                    if (relationsRoot.elements[i].members[j].role == "outer")
+                        SpawnBuilding(buffer, relationsRoot.elements[i].members[j]);
                 }
             }
         }
