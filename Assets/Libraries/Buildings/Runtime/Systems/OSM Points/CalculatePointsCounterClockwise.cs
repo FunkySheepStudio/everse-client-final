@@ -31,7 +31,7 @@ namespace FunkySheep.Buildings.Systems
                     }
                 }
 
-                buffer.SetComponentEnabled<SetPointsCounterClockWise>(entity, false);
+                buffer.RemoveComponent<SetPointsCounterClockWise>(entity);
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();

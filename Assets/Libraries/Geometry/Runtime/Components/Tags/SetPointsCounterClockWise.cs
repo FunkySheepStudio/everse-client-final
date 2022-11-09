@@ -2,6 +2,6 @@ using Unity.Entities;
 
 namespace FunkySheep.Geometry.Components.Tags
 {
-    public struct SetPointsCounterClockWise : IComponentData, IEnableableComponent
+    public struct SetPointsCounterClockWise : IComponentData
     { }
 }

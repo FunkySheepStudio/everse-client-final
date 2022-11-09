@@ -3,6 +3,7 @@ using Unity.Entities;
 using FunkySheep.Geometry.Components.Tags;
 using FunkySheep.Geometry.Components;
 using UnityEngine;
+using FunkySheep.Buildings.Components.Barriers;
 
 namespace FunkySheep.Buildings.Systems
 {
@@ -22,7 +23,7 @@ namespace FunkySheep.Buildings.Systems
 
                 building.area = area;
 
-                //buffer.SetComponentEnabled<SetPointsArea>(entity, false);
+                buffer.RemoveComponent<SetPointsArea>(entity);
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();

@@ -32,7 +32,7 @@ namespace FunkySheep.Buildings.Systems
                     gPSCoordinates.Add(tempPoints[(i + maxPointIndex) % tempPoints.Length]);
                 }
 
-                buffer.SetComponentEnabled<SetPointsOrder>(entity, false);
+                buffer.RemoveComponent<SetPointsOrder>(entity);
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();

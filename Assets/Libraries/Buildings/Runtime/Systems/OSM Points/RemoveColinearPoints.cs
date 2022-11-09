@@ -23,7 +23,7 @@ namespace FunkySheep.Buildings.Systems
                     }
                 }
 
-                buffer.SetComponentEnabled<RemoveColinearPoints>(entity, false);
+                buffer.RemoveComponent<RemoveColinearPoints>(entity);
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();

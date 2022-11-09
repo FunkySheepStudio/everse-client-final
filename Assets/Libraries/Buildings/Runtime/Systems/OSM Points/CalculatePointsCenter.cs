@@ -23,7 +23,7 @@ namespace FunkySheep.Buildings.Systems
 
                 building.center = center;
 
-                buffer.SetComponentEnabled<SetPointsCenter>(entity, false);
+                buffer.RemoveComponent<SetPointsCenter>(entity);
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();
