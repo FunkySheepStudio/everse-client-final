@@ -6,11 +6,6 @@ using FunkySheep.Collections;
 
 namespace FunkySheep.Buildings.Systems
 {
-    public struct Triangles : IBufferElementData
-    {
-        public int Value;
-    }
-
     [UpdateAfter(typeof(CalculateClippingEars))]
     public partial class TriangulateRoof : SystemBase
     {
@@ -18,15 +13,19 @@ namespace FunkySheep.Buildings.Systems
         {
             Entities.ForEach((Entity entity, EntityCommandBuffer buffer, DynamicBuffer<Points> points, DynamicBuffer<Vertices> vertices, DynamicBuffer<Ears> ears, DynamicBuffer<Triangles> triangles) =>
             {
-                if (ears.Length == 0)
-                    return;
+                if (ears.Length != 0)
+                {
+                    triangles.Add(new Triangles { Value = vertices[Utils.ClampListIndex(ears[0].Value, vertices.Length)].Value });
+                    triangles.Add(new Triangles { Value = vertices[Utils.ClampListIndex(ears[0].Value - 1, vertices.Length)].Value });
+                    triangles.Add(new Triangles { Value = vertices[Utils.ClampListIndex(ears[0].Value + 1, vertices.Length)].Value });
 
-                triangles.Add(new Triangles { Value = vertices[Utils.ClampListIndex(ears[0].Value, vertices.Length)].Value });
-                triangles.Add(new Triangles { Value = vertices[Utils.ClampListIndex(ears[0].Value - 1, vertices.Length)].Value });
-                triangles.Add(new Triangles { Value = vertices[Utils.ClampListIndex(ears[0].Value + 1, vertices.Length)].Value });
-
-                vertices.RemoveAt(ears[0].Value);
-                ears.Clear();
+                    vertices.RemoveAt(ears[0].Value);
+                    ears.Clear();
+                } else
+                {
+                    buffer.RemoveComponent<Vertices>(entity);
+                    buffer.RemoveComponent<Ears>(entity);
+                }
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();

@@ -6,11 +6,6 @@ using FunkySheep.Geometry.Components;
 
 namespace FunkySheep.Geometry
 {
-    public struct Vertices : IBufferElementData
-    {
-        public int Value;
-    }
-
     public struct Ears : IBufferElementData
     {
         public int Value;

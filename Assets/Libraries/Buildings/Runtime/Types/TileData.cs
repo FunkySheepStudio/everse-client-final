@@ -2,6 +2,7 @@ using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using FunkySheep.Geometry.Components.Tags;
+using FunkySheep.Buildings.Components.Barriers;
 
 namespace FunkySheep.Buildings.Types
 {
@@ -36,8 +37,7 @@ namespace FunkySheep.Buildings.Types
             buffer.AddComponent<SetPointsCenter>(building);
             buffer.AddComponent<SetPointsOrder>(building);
             buffer.AddComponent<SetPointsCounterClockWise>(building);
-            buffer.AddComponent<FunkySheep.Buildings.Components.Tags.Walls>(building);
-            buffer.SetComponentEnabled<FunkySheep.Buildings.Components.Tags.Walls>(building, false);
+            buffer.AddComponent<SetPointsArea>(building);
 
             DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
 

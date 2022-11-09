@@ -436,8 +436,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   states:
   - {fileID: 11400000, guid: 2cf164ab2b640134399a0790e4d0799b, type: 2}
-  - {fileID: 11400000, guid: 441efcb4415a5124fb1bba7d2ea0870b, type: 2}
-  - {fileID: 11400000, guid: 170fed81cdab9af49872bd19f60b57a2, type: 2}
 --- !u!1 &1260707322
 GameObject:
   m_ObjectHideFlags: 0

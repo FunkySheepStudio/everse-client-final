@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using FunkySheep.Buildings.Components;
-using FunkySheep.Buildings.Components.Tags;
+using FunkySheep.Buildings.Components.Barriers;
 using FunkySheep.Earth.Components;
 using FunkySheep.Maps.Components;
 using UnityEngine;
@@ -72,9 +72,8 @@ namespace FunkySheep.Buildings.Systems
                         }
                     }
                 }
-
+                buffer.AddComponent<OsmPointsCalculationOver>(entity);
                 buffer.RemoveComponent<GPSCoordinates>(entity);
-                buffer.SetComponentEnabled<Walls>(entity, true);
             })
             .WithoutBurst()
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
@@ -84,7 +83,7 @@ namespace FunkySheep.Buildings.Systems
 
         public void OnDrawGizmos()
         {
-            Entities.ForEach((in Walls wall, in DynamicBuffer<Points> points, in Building building) =>
+            Entities.ForEach((in DynamicBuffer<Points> points, in Building building, in OsmPointsCalculationOver osmPointsCalculationOver) =>
             {
                 for (int i = 0; i < points.Length; i++)
                 {

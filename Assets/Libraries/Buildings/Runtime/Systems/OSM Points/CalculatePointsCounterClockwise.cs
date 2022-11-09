@@ -3,7 +3,6 @@ using Unity.Entities;
 using FunkySheep.Earth.Components;
 using FunkySheep.Geometry.Components.Tags;
 using Unity.Collections;
-using Unity.Mathematics;
 
 namespace FunkySheep.Buildings.Systems
 {

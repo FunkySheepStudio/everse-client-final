@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Transforms;
 using FunkySheep.Geometry;
 using FunkySheep.Geometry.Components;
 
@@ -24,7 +25,10 @@ namespace FunkySheep.Buildings.Systems
                     });
                 }
             })
+            .WithNone<LocalToWorld>()
             .WithNone<Vertices>()
+            .WithNone<Ears>()
+            .WithNone<Triangles>()
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();
         }
