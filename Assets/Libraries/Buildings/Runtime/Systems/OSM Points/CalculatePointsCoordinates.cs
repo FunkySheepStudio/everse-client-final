@@ -4,10 +4,8 @@ using FunkySheep.Buildings.Components;
 using FunkySheep.Buildings.Components.Tags;
 using FunkySheep.Earth.Components;
 using FunkySheep.Maps.Components;
-using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine;
-using System.Linq;
-using FunkySheep.Geometry.Components.Tags;
+using FunkySheep.Geometry.Components;
 
 namespace FunkySheep.Buildings.Systems
 {
@@ -93,14 +91,15 @@ namespace FunkySheep.Buildings.Systems
                     if (i == 0)
                     {
                         Gizmos.color = Color.blue;
-                        Gizmos.DrawCube(points[i].Value, Vector3.one * 3);
                     } else
                     {
                         Gizmos.color = Color.red;
                     }
-                        
 
-                    Gizmos.DrawLine(points[i].Value, points[(i + 1) % points.Length].Value);
+                    Gizmos.DrawCube(points[i].Value, Vector3.one * 3);
+
+
+                    //Gizmos.DrawLine(points[i].Value, points[(i + 1) % points.Length].Value);
                 }
             })
             .WithoutBurst()
