@@ -26,6 +26,13 @@ namespace FunkySheep.Buildings.Systems
         {
             Entities.ForEach((Entity entity, in Building building, in DynamicBuffer<Triangles> triangles, in DynamicBuffer<Points> points) =>
             {
+                var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+                if (points.Length == 0)
+                {
+                    entityManager.DestroyEntity(entity);
+                    return;
+                }
+
                 NativeArray<Points> flatPoints = new NativeArray<Points>(points.Length, Allocator.Temp);
                 NativeArray<Uvs> uvs = new NativeArray<Uvs>(points.Length, Allocator.Temp);
 
@@ -67,7 +74,6 @@ namespace FunkySheep.Buildings.Systems
                 }
 
                 Mesh mesh = new Mesh();
-                var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
                 mesh.indexFormat = IndexFormat.UInt32;
                 mesh.Clear();
                 mesh.SetVertices(flatPoints.Reinterpret<Vector3>());
