@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using FunkySheep.Geometry;
 using FunkySheep.Geometry.Components;
+using FunkySheep.Buildings.Components.Barriers;
+using FunkySheep.Buildings.Components;
 
 namespace FunkySheep.Buildings.Systems
 {
@@ -22,7 +24,7 @@ namespace FunkySheep.Buildings.Systems
 
         protected override void OnUpdate()
         {
-            Entities.ForEach((Entity entity, in DynamicBuffer<Triangles> triangles, in DynamicBuffer<Points> points) =>
+            Entities.ForEach((Entity entity, in Building building, in DynamicBuffer<Triangles> triangles, in DynamicBuffer<Points> points) =>
             {
                 NativeArray<Points> flatPoints = new NativeArray<Points>(points.Length, Allocator.Temp);
                 NativeArray<Uvs> uvs = new NativeArray<Uvs>(points.Length, Allocator.Temp);
@@ -43,7 +45,7 @@ namespace FunkySheep.Buildings.Systems
                         Value = new float3
                         {
                             x = points[i].Value.x,
-                            y = 0,
+                            y = building.maxHeight + building.area,
                             z = points[i].Value.z
                         }
                     };
@@ -97,9 +99,11 @@ namespace FunkySheep.Buildings.Systems
                     Value = Matrix4x4.identity
                 });
 
-                entityManager.RemoveComponent<Triangles>(entity);
                 flatPoints.Dispose();
                 uvs.Dispose();
+
+                entityManager.RemoveComponent<Triangles>(entity);
+                entityManager.AddComponent<RoofMeshCreated>(entity);
             })
             .WithNone<Vertices>()
             .WithNone<Ears>()

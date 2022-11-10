@@ -3,11 +3,11 @@ using Unity.Entities;
 using FunkySheep.Geometry.Components.Tags;
 using FunkySheep.Geometry.Components;
 using UnityEngine;
-using FunkySheep.Buildings.Components.Barriers;
 
 namespace FunkySheep.Buildings.Systems
 {
-    //[UpdateAfter(typeof(CalculatePointsCoordinates))]
+    [UpdateAfter(typeof(CalculatePointsCoordinates))]
+    [UpdateBefore(typeof(CreateVertexList))]
     public partial class CalculatePointsArea : SystemBase
     {
         protected override void OnUpdate()
