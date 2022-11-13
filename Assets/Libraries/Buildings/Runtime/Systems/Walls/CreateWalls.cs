@@ -1,6 +1,7 @@
 using FunkySheep.Buildings.Components;
 using FunkySheep.Buildings.Components.Barriers;
 using FunkySheep.Geometry.Components;
+using FunkySheep.Geometry.Components.Tags;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
