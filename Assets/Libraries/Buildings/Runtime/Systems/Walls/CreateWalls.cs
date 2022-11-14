@@ -59,7 +59,7 @@ namespace FunkySheep.Buildings.Systems
                         transform = float4x4.TRS(
                             position,
                             LookAtRotationOnly_Y,
-                            new float3(1, building.maxHeight - position.y + building.area, wallWidth)
+                            new float3(wallWidth, building.maxHeight - position.y + building.area, wallWidth)
                         );
                         buffer.SetComponent<LocalToWorld>(wall, new LocalToWorld
                         {
