@@ -3,6 +3,7 @@ using Unity.Entities;
 
 namespace FunkySheep.Buildings
 {
+    [AddComponentMenu("FunkySheep/Buildings/Prefab Authoring")]
     public class PrefabAuthoring : MonoBehaviour
     {
         public class BuildingAuthoring : Baker<PrefabAuthoring>

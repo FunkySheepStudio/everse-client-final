@@ -2,6 +2,7 @@ using Unity.Entities;
 using FunkySheep.Geometry;
 using FunkySheep.Geometry.Components;
 using FunkySheep.Buildings.Components.Barriers;
+using FunkySheep.LevelOfDetail.Components.Tags;
 
 namespace FunkySheep.Buildings.Systems
 {
@@ -10,7 +11,7 @@ namespace FunkySheep.Buildings.Systems
     {
         protected override void OnUpdate()
         {
-            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, DynamicBuffer<Points> points) =>
+            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, DynamicBuffer<Points> points, in LodOk lodOk) =>
             {
                 // Set the vertex array
                 DynamicBuffer<Vertices> vertices = buffer.AddBuffer<Vertices>(entity);

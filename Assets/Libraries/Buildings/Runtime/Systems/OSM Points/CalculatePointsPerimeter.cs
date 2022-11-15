@@ -14,14 +14,14 @@ namespace FunkySheep.Buildings.Systems
         {
             Entities.ForEach((Entity entity, EntityCommandBuffer buffer, ref Building building, in DynamicBuffer<Points> points, in SetPointsPerimeter setPointsPerimeter) =>
             {
-                float area = 0;
+                float perimeter = 0;
 
                 for (int i = 0; i < points.Length; i++)
                 {
-                    area += Vector2.Distance(points[i].ToXY(), points[(i + 1) % points.Length].ToXY());
+                    perimeter += Vector2.Distance(points[i].ToXY(), points[(i + 1) % points.Length].ToXY());
                 }
 
-                building.area = area;
+                building.perimeter = perimeter;
 
                 buffer.RemoveComponent<SetPointsPerimeter>(entity);
             })

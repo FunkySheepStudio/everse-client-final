@@ -2,8 +2,8 @@ using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using FunkySheep.Geometry.Components.Tags;
-using FunkySheep.Buildings.Components.Barriers;
 using FunkySheep.Terrain.Components.Tags;
+using FunkySheep.LevelOfDetail.Components;
 
 namespace FunkySheep.Buildings.Types
 {
@@ -40,6 +40,10 @@ namespace FunkySheep.Buildings.Types
             buffer.AddComponent<SetPointsCounterClockWise>(building);
             buffer.AddComponent<SetPointsPerimeter>(building);
             buffer.AddComponent<SetCalculatePointsCoordinates>(building);
+            buffer.AddComponent<Distance>(building, new Distance
+            {
+                Value = 100
+            });
 
             DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
 

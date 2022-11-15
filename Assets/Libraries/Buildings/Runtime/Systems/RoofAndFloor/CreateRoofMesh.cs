@@ -48,7 +48,7 @@ namespace FunkySheep.Buildings.Systems
                         Value = new float3
                         {
                             x = points[i].Value.x,
-                            y = building.maxHeight + building.area,
+                            y = building.maxHeight + building.perimeter,
                             z = points[i].Value.z
                         }
                     };

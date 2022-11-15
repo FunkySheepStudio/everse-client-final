@@ -8,6 +8,6 @@ namespace FunkySheep.Buildings.Components
         public double2 center;
         public float minHeight;
         public float maxHeight;
-        public float area;
+        public float perimeter;
     }
 }
