@@ -6,15 +6,17 @@ using FunkySheep.Earth.Components;
 using FunkySheep.Maps.Components;
 using UnityEngine;
 using FunkySheep.Geometry.Components;
+using FunkySheep.Terrain.Components.Tags;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(OSMSystemGroup))]
     [UpdateAfter(typeof(CalculatePointsCounterClockwise))]
     public partial class CalculatePointsCoordinates : SystemBase
     {
         protected override void OnUpdate()
         {
-            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, ref Building building, in DynamicBuffer<GPSCoordinates> gPSCoordinates) =>
+            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, ref Building building, in DynamicBuffer<GPSCoordinates> gPSCoordinates, in SetCalculatePointsCoordinates setCalculatePointsCoordinates) =>
             {
                 InitialMapPosition initialMapPosition;
                 if (!TryGetSingleton<InitialMapPosition>(out initialMapPosition))
@@ -72,8 +74,8 @@ namespace FunkySheep.Buildings.Systems
                         }
                     }
                 }
-                buffer.AddComponent<OsmPointsCalculationOver>(entity);
                 buffer.RemoveComponent<GPSCoordinates>(entity);
+                buffer.RemoveComponent<SetCalculatePointsCoordinates>(entity);
             })
             .WithoutBurst()
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
@@ -83,7 +85,7 @@ namespace FunkySheep.Buildings.Systems
 
         public void OnDrawGizmos()
         {
-            Entities.ForEach((in DynamicBuffer<Points> points, in Building building, in OsmPointsCalculationOver osmPointsCalculationOver) =>
+            /*Entities.ForEach((in DynamicBuffer<Points> points, in Building building, in OsmPointsCalculationOver osmPointsCalculationOver) =>
             {
                 for (int i = 0; i < points.Length; i++)
                 {
@@ -102,7 +104,7 @@ namespace FunkySheep.Buildings.Systems
                 }
             })
             .WithoutBurst()
-            .Run();
+            .Run();*/
         }
     }
 }

@@ -6,6 +6,7 @@ using Unity.Mathematics;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(OSMSystemGroup))]
     [UpdateAfter(typeof(RemoveCollinearPoints))]
     public partial class CalculatePointsCenter : SystemBase
     {

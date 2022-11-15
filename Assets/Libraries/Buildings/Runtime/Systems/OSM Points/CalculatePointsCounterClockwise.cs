@@ -6,6 +6,7 @@ using Unity.Collections;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(OSMSystemGroup))]
     [UpdateAfter(typeof(CalculatePointsOrder))]
     public partial class CalculatePointsCounterClockwise : SystemBase
     {

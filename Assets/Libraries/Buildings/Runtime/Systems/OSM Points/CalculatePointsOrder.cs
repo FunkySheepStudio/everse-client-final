@@ -7,6 +7,7 @@ using Unity.Mathematics;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(OSMSystemGroup))]
     [UpdateAfter(typeof(CalculatePointsCenter))]
     public partial class CalculatePointsOrder : SystemBase
     {

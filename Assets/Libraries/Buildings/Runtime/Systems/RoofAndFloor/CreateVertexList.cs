@@ -1,11 +1,11 @@
 using Unity.Entities;
-using Unity.Transforms;
 using FunkySheep.Geometry;
 using FunkySheep.Geometry.Components;
+using FunkySheep.Buildings.Components.Barriers;
 
 namespace FunkySheep.Buildings.Systems
 {
-    [UpdateAfter(typeof(CalculatePointsCoordinates))]
+    [UpdateInGroup(typeof(RoofSystemGroup))]
     public partial class CreateVertexList : SystemBase
     {
         protected override void OnUpdate()
@@ -25,7 +25,7 @@ namespace FunkySheep.Buildings.Systems
                     });
                 }
             })
-            .WithNone<LocalToWorld>()
+            .WithNone<RoofMeshCreated>()
             .WithNone<Vertices>()
             .WithNone<Ears>()
             .WithNone<Triangles>()

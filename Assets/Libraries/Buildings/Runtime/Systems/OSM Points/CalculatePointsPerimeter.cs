@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(OSMSystemGroup))]
     [UpdateAfter(typeof(CalculatePointsCoordinates))]
-    [UpdateBefore(typeof(CreateVertexList))]
-    public partial class CalculatePointsArea : SystemBase
+    public partial class CalculatePointsPerimeter : SystemBase
     {
         protected override void OnUpdate()
         {
-            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, ref Building building, in DynamicBuffer<Points> points, in SetPointsArea setPointsArea) =>
+            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, ref Building building, in DynamicBuffer<Points> points, in SetPointsPerimeter setPointsPerimeter) =>
             {
                 float area = 0;
 
@@ -23,7 +23,7 @@ namespace FunkySheep.Buildings.Systems
 
                 building.area = area;
 
-                buffer.RemoveComponent<SetPointsArea>(entity);
+                buffer.RemoveComponent<SetPointsPerimeter>(entity);
             })
             .WithDeferredPlaybackSystem<EndSimulationEntityCommandBufferSystem>()
             .ScheduleParallel();

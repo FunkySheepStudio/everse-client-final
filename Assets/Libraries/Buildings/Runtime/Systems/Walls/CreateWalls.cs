@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace FunkySheep.Buildings.Systems
 {
-    [UpdateAfter(typeof(CreateRoofMesh))]
+    [UpdateInGroup(typeof(WallsSystemGroup))]
     public partial class CreateWalls : SystemBase
     {
         EntityQuery query;
@@ -19,7 +19,7 @@ namespace FunkySheep.Buildings.Systems
             query = GetEntityQuery(ComponentType.ReadOnly<FunkySheep.Buildings.Components.Tags.Prefab>());
             NativeArray<Entity> prefabs = query.ToEntityArray(Allocator.TempJob);
 
-            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, in DynamicBuffer<Points> points, in Building building, in RoofMeshCreated roofMeshCreated) =>
+            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, in DynamicBuffer<Points> points, in Building building) =>
             {
                 if (prefabs.Length > 0)
                 {

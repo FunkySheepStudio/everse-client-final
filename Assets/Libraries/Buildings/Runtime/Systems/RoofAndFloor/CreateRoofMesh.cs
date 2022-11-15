@@ -12,6 +12,7 @@ using FunkySheep.Buildings.Components;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(RoofSystemGroup))]
     [UpdateAfter(typeof(TriangulateRoof))]
     public partial class CreateRoofMesh : SystemBase
     {
@@ -27,11 +28,6 @@ namespace FunkySheep.Buildings.Systems
             Entities.ForEach((Entity entity, in Building building, in DynamicBuffer<Triangles> triangles, in DynamicBuffer<Points> points) =>
             {
                 var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-                if (points.Length == 0)
-                {
-                    entityManager.DestroyEntity(entity);
-                    return;
-                }
 
                 NativeArray<Points> flatPoints = new NativeArray<Points>(points.Length, Allocator.Temp);
                 NativeArray<Uvs> uvs = new NativeArray<Uvs>(points.Length, Allocator.Temp);
@@ -72,7 +68,7 @@ namespace FunkySheep.Buildings.Systems
                             )
                         };
                 }
-
+                Entity roofEntity = entityManager.CreateEntity();
                 Mesh mesh = new Mesh();
                 mesh.indexFormat = IndexFormat.UInt32;
                 mesh.Clear();
@@ -93,14 +89,18 @@ namespace FunkySheep.Buildings.Systems
                 // Call AddComponents to populate base entity with the components required
                 // by Entities Graphics
                 RenderMeshUtility.AddComponents(
-                    entity,
+                    roofEntity,
                     entityManager,
                     desc,
                     renderMeshArray,
                     MaterialMeshInfo.FromRenderMeshArrayIndices(0, 0));
 
-                entityManager.AddComponent<LocalToWorld>(entity);
-                entityManager.SetComponentData<LocalToWorld>(entity, new LocalToWorld
+                entityManager.AddComponent<Parent>(roofEntity);
+                entityManager.SetComponentData<Parent>(roofEntity, new Parent { Value = entity });
+
+
+                entityManager.AddComponent<LocalToWorld>(roofEntity);
+                entityManager.SetComponentData<LocalToWorld>(roofEntity, new LocalToWorld
                 {
                     Value = Matrix4x4.identity
                 });

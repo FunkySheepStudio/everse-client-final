@@ -3,6 +3,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using FunkySheep.Geometry.Components.Tags;
 using FunkySheep.Buildings.Components.Barriers;
+using FunkySheep.Terrain.Components.Tags;
 
 namespace FunkySheep.Buildings.Types
 {
@@ -33,11 +34,12 @@ namespace FunkySheep.Buildings.Types
         {
             Entity building = buffer.CreateEntity();
             buffer.AddComponent<FunkySheep.Buildings.Components.Building>(building);
-            buffer.AddComponent<RemoveColinearPoints>(building);
+            buffer.AddComponent<SetRemoveColinearPoints>(building);
             buffer.AddComponent<SetPointsCenter>(building);
             buffer.AddComponent<SetPointsOrder>(building);
             buffer.AddComponent<SetPointsCounterClockWise>(building);
-            buffer.AddComponent<SetPointsArea>(building);
+            buffer.AddComponent<SetPointsPerimeter>(building);
+            buffer.AddComponent<SetCalculatePointsCoordinates>(building);
 
             DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
 

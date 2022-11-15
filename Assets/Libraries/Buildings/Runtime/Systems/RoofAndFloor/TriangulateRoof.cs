@@ -6,6 +6,7 @@ using FunkySheep.Collections;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [UpdateInGroup(typeof(RoofSystemGroup))]
     [UpdateAfter(typeof(CalculateClippingEars))]
     public partial class TriangulateRoof : SystemBase
     {
