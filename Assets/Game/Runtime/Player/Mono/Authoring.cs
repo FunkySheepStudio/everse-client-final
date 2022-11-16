@@ -11,6 +11,7 @@ namespace Game.Player
         {
             public override void Bake(Authoring authoring)
             {
+                AddComponent<Components.Tags.Player>();
                 AddComponent<CurrentPosition>();
             }
         }

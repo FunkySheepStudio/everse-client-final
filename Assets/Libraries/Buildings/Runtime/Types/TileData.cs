@@ -42,7 +42,7 @@ namespace FunkySheep.Buildings.Types
             buffer.AddComponent<SetCalculatePointsCoordinates>(building);
             buffer.AddComponent<Distance>(building, new Distance
             {
-                Value = 100
+                Value = 400
             });
 
             DynamicBuffer<Earth.Components.GPSCoordinates> gPSCoordinates = buffer.AddBuffer<Earth.Components.GPSCoordinates>(building);
