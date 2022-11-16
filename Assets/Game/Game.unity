@@ -460,6 +460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 966390095}
   - component: {fileID: 966390096}
+  - component: {fileID: 966390097}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -498,6 +499,41 @@ MonoBehaviour:
   states:
   - {fileID: 11400000, guid: 040ca1fc0517fcb4db41d9d3ea41030e, type: 2}
   - {fileID: 11400000, guid: 67907ad6f04b11b4a94f33620b65532f, type: 2}
+--- !u!114 &966390097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966390094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: ea6e82974c4f69947a15a4e759581f50,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9425cc3e-dfbf-4cef-8969-649b9906e47a
+    m_ActionName: Player Movements/Move[/Keyboard/a,/Keyboard/d,/Keyboard/w,/Keyboard/s]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Player Movements
+  m_DefaultActionMap: Player Movements
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1030354979
 GameObject:
   m_ObjectHideFlags: 0
