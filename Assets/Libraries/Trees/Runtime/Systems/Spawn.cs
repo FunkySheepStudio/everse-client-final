@@ -33,12 +33,12 @@ namespace FunkySheep.Trees.Systems
 
                 for (int i = 0; i < pixels.Length; i++)
                 {
-                    if (pixels[i].Value.g == 173 && pixels[i].Value.b == 209 && pixels[i].Value.a == 158 && i % 4 == 0)
+                    if (pixels[i].Value.g == 173 && pixels[i].Value.b == 209 && pixels[i].Value.a == 158)
                     {
                         float3 position = new float3
                         {
-                            x = (tilePosition.x * tileSize.Value) + (i % 256) * tileSize.Value / 256,
-                            z = (tilePosition.y * tileSize.Value) + (i / 256) * tileSize.Value / 256
+                            x = (tilePosition.x * tileSize.Value) + (i % 256) * tileSize.Value / 256 + (0.5f * tileSize.Value / 256),
+                            z = (tilePosition.y * tileSize.Value) + (i / 256) * tileSize.Value / 256 + (0.5f * tileSize.Value / 256)
                         };
 
                         float? height = Terrain.Utils.GetHeight(position);
