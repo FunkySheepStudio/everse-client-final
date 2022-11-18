@@ -16,6 +16,7 @@ namespace FunkySheep.Terrain
         public FunkySheep.Maps.Types.TileSize tileSize;
         public Types.TileList currentTiles;
         public GameObject tilePrefab;
+        public Maps.Events.TileEvent onDiffuseMapDownloaded;
         Queue<int2> pendingTiles = new Queue<int2>();
 
         public override void Start()
@@ -92,13 +93,16 @@ namespace FunkySheep.Terrain
             string interpolatedHeightUrl = heightsUrl.Interpolate(values, variables);
             manager.StartCoroutine(FunkySheep.Network.Downloader.DownloadTexture(interpolatedHeightUrl, (fileID, texture) =>
             {
-                tileComponent.ProcessHeights(texture);
+                Maps.Types.Tile mapTile = new Maps.Types.Tile(tileMapPosition, texture);
+                tileComponent.ProcessHeights(mapTile);
             }));
 
             string interpolatedDiffuseUrl = diffuseUrl.Interpolate(values, variables);
             manager.StartCoroutine(FunkySheep.Network.Downloader.DownloadTexture(interpolatedDiffuseUrl, (fileID, texture) =>
             {
-                tileComponent.ProcessDiffuse(texture);
+                Maps.Types.Tile mapTile = new Maps.Types.Tile(tileMapPosition, texture);
+                tileComponent.ProcessDiffuse(mapTile);
+                onDiffuseMapDownloaded.Raise(mapTile);
             }));
         }
 

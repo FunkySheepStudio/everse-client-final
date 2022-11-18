@@ -29,3 +29,5 @@ MonoBehaviour:
   currentTiles: {fileID: 11400000, guid: 76dcbd1dc7bc3934ca72e556f120265b, type: 2}
   tilePrefab: {fileID: 4121857475319732502, guid: 2fcbb25840300e346bca9f8dd796faf0,
     type: 3}
+  onDiffuseMapDownloaded: {fileID: 11400000, guid: 20aea32cfa5c55845a5c7b6347b7d14d,
+    type: 2}

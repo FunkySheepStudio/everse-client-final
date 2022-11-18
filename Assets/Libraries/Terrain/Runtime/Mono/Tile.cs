@@ -45,10 +45,10 @@ namespace FunkySheep.Terrain
             transform.localPosition = position;
         }
 
-        public void ProcessHeights(Texture2D texture)
+        public void ProcessHeights(Maps.Types.Tile mapTile)
         {
 
-            NativeArray<Byte> bytes = texture.GetRawTextureData<Byte>();
+            NativeArray<Byte> bytes = mapTile.texture.GetRawTextureData<Byte>();
             NativeArray<float> heights = new NativeArray<float>(bytes.Length / 4, Allocator.Temp);
 
             terrain.terrainData.heightmapResolution = (int)math.sqrt(heights.Length);
@@ -69,11 +69,11 @@ namespace FunkySheep.Terrain
             
         }
 
-        public void ProcessDiffuse(Texture2D texture)
+        public void ProcessDiffuse(Maps.Types.Tile mapTile)
         {
-            texture.wrapMode = TextureWrapMode.Clamp;
-            texture.filterMode = FilterMode.Point;
-            terrain.materialTemplate.SetTexture("_MainTex", texture);
+            mapTile.texture.wrapMode = TextureWrapMode.Clamp;
+            mapTile.texture.filterMode = FilterMode.Point;
+            terrain.materialTemplate.SetTexture("_MainTex", mapTile.texture);
         }
 
         [BurstCompile]
