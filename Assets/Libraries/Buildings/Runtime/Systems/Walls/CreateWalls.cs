@@ -2,6 +2,7 @@ using FunkySheep.Buildings.Components;
 using FunkySheep.Buildings.Components.Barriers;
 using FunkySheep.Geometry.Components;
 using FunkySheep.Geometry.Components.Tags;
+using FunkySheep.LevelOfDetail.Components.Tags;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -19,7 +20,7 @@ namespace FunkySheep.Buildings.Systems
             query = GetEntityQuery(ComponentType.ReadOnly<FunkySheep.Buildings.Components.Tags.Prefab>());
             NativeArray<Entity> prefabs = query.ToEntityArray(Allocator.TempJob);
 
-            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, in DynamicBuffer<Points> points, in Building building) =>
+            Entities.ForEach((Entity entity, EntityCommandBuffer buffer, in DynamicBuffer<Points> points, in Building building, in LodOk lodOk) =>
             {
                 if (prefabs.Length > 0)
                 {
