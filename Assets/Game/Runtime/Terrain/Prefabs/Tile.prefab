@@ -84,6 +84,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialMapPosition: {fileID: 11400000, guid: 5c883b419299b66479473e64f5354ef5, type: 2}
+  mapPosition:
+    x: 0
+    y: 0
   tileSize: {fileID: 11400000, guid: 02fdcd12335e8834b81eb92ffe6027d2, type: 2}
   heightUpdated: 0
   material: {fileID: 2100000, guid: e738989a264a2ee4384bb6da605f999b, type: 2}
+  onCreatedTileEvent: {fileID: 11400000, guid: 014e362ecd007f641947ba4bc17681fb, type: 2}

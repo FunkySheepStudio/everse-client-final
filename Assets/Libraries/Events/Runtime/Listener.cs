@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace FunkySheep.Events
 {
-    public abstract class Listener<T> : MonoBehaviour
+    public abstract class Listener<T> : ScriptableObject
     {
         [Tooltip("Event to register with.")]
         public Event<T> Event;

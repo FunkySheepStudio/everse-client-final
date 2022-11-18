@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace FunkySheep.Buildings.Systems
 {
-    [DisableAutoCreation]
     [UpdateInGroup(typeof(WallsSystemGroup))]
     public partial class CreateWalls : SystemBase
     {

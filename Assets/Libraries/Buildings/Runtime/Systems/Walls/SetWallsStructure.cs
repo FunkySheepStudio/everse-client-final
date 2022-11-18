@@ -10,6 +10,7 @@ using FunkySheep.LevelOfDetail.Components.Tags;
 
 namespace FunkySheep.Buildings.Systems
 {
+    [DisableAutoCreation]
     [UpdateInGroup(typeof(WallsSystemGroup))]
     public partial class SetWallsStructure : SystemBase
     {

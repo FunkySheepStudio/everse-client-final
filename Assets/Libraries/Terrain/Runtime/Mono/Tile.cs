@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using FunkySheep.Maps.Types;
 using FunkySheep.Terrain.Types;
+using FunkySheep.LevelOfDetail.Components;
 
 namespace FunkySheep.Terrain
 {
@@ -15,9 +16,11 @@ namespace FunkySheep.Terrain
     public class Tile : MonoBehaviour
     {
         public MapPositionRounded initialMapPosition;
+        public int2 mapPosition;
         public TileSize tileSize;
         public bool heightUpdated = false;
         public Material material;
+        public FunkySheep.Events.Types.Int2Event onCreatedTileEvent;
         UnityEngine.Terrain terrain;
 
         private void Awake()
@@ -32,6 +35,7 @@ namespace FunkySheep.Terrain
 
         public void Init(TileData tile)
         {
+            mapPosition = tile.position;
             name = tile.position.ToString();
             Vector3 position = new Vector3(
                 (tile.position.x - initialMapPosition.Value.x) * tileSize.Value,
@@ -39,9 +43,6 @@ namespace FunkySheep.Terrain
                 (initialMapPosition.Value.y - tile.position.y) * tileSize.Value // Map axis are reverted
             );
             transform.localPosition = position;
-            ProcessHeights(tile.heightTexture);
-            ProcessDiffuse(tile.diffuseTexture);
-
         }
 
         public void ProcessHeights(Texture2D texture)
@@ -62,17 +63,10 @@ namespace FunkySheep.Terrain
                 bytes = bytes,
                 heights = heights
             };
-            setHeightsFromTextureJob.Schedule(heights.Length, 64).Complete();
+            setHeightsFromTextureJob.Schedule(heights.Length, 256).Complete();
 
-            float[,] height2D = ConvertArrayTo2DArray(heights.ToArray());
-            heights.Dispose();
-
-            terrain.terrainData.SetHeightsDelayLOD(0, 0, height2D);
-            terrain.terrainData.SyncHeightmap();
-
-            terrain.enabled = true;
-            heightUpdated = true;
-            gameObject.AddComponent<Connector>();
+            StartCoroutine("ConvertArrayTo2DArray" ,heights);
+            
         }
 
         public void ProcessDiffuse(Texture2D texture)
@@ -100,8 +94,9 @@ namespace FunkySheep.Terrain
         }
 
         [BurstCompile]
-        float[,] ConvertArrayTo2DArray(float[] flatArray)
+        void ConvertArrayTo2DArray(NativeArray<float> heights)
         {
+            float[] flatArray = heights.ToArray();
             int borderCount = (int)math.sqrt(flatArray.Length);
             float[,] array2D = new float[borderCount + 1, borderCount + 1];
 
@@ -119,7 +114,14 @@ namespace FunkySheep.Terrain
                 array2D[x + 1, y + 1] = flatArray[i];
             }
 
-            return array2D;
+            heights.Dispose();
+
+            terrain.terrainData.SetHeightsDelayLOD(0, 0, array2D);
+            terrain.terrainData.SyncHeightmap();
+
+            terrain.enabled = true;
+            heightUpdated = true;
+            gameObject.AddComponent<Connector>();
         }
     }
 }

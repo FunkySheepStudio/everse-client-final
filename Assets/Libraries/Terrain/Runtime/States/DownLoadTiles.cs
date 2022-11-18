@@ -1,4 +1,5 @@
 using FunkySheep.Terrain.Types;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace FunkySheep.Terrain
         public FunkySheep.Maps.Types.TileSize tileSize;
         public Types.TileList currentTiles;
         public GameObject tilePrefab;
+        Queue<int2> pendingTiles = new Queue<int2>();
 
         public override void Start()
         {
@@ -23,17 +25,48 @@ namespace FunkySheep.Terrain
 
         public override void Update()
         {
-            Download(mapPosition.Value);
-            Download(mapPosition.Value + new int2 { x = 0, y = 1 });
-            Download(mapPosition.Value + new int2 { x = 1, y = 0 });
-            Download(mapPosition.Value + new int2 { x = 1, y = 1 });
+            if (pendingTiles.Count == 0)
+            {
+                pendingTiles.Enqueue(mapPosition.Value);
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 0, y = 1 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 1, y = 0 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 1, y = 1 });
 
-            Download(mapPosition.Value + new int2 { x = 0, y = -1 });
-            Download(mapPosition.Value + new int2 { x = -1, y = 0 });
-            Download(mapPosition.Value + new int2 { x = -1, y = -1 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 0, y = -1 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -1, y = 0 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -1, y = -1 });
 
-            Download(mapPosition.Value + new int2 { x = -1, y = 1 });
-            Download(mapPosition.Value + new int2 { x = 1, y = -1 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -1, y = 1 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 1, y = -1 });
+
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 1, y = 2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 2, y = 1 });
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -1, y = 2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 2, y = -1 });
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 1, y = -2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -2, y = 1 });
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -1, y = -2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -2, y = -1 });
+
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 0, y = 2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 2, y = 0 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 2, y = 2 });
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 0, y = -2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -2, y = 0 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -2, y = -2 });
+
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = -2, y = 2 });
+                pendingTiles.Enqueue(mapPosition.Value + new int2 { x = 2, y = -2 });
+            } else
+            {
+                Download(pendingTiles.Dequeue());
+            }
         }
 
         public void Download(int2 tileMapPosition)
@@ -52,28 +85,21 @@ namespace FunkySheep.Terrain
                 tileMapPosition.y.ToString()
             };
 
+            GameObject tileGo = GameObject.Instantiate(tilePrefab, manager.transform);
+            Tile tileComponent = tileGo.GetComponent<Tile>();
+            tileComponent.Init(tile);
+
             string interpolatedHeightUrl = heightsUrl.Interpolate(values, variables);
             manager.StartCoroutine(FunkySheep.Network.Downloader.DownloadTexture(interpolatedHeightUrl, (fileID, texture) =>
             {
-                tile.heightTexture = texture;
-                AddTile(tile);
+                tileComponent.ProcessHeights(texture);
             }));
 
             string interpolatedDiffuseUrl = diffuseUrl.Interpolate(values, variables);
             manager.StartCoroutine(FunkySheep.Network.Downloader.DownloadTexture(interpolatedDiffuseUrl, (fileID, texture) =>
             {
-                tile.diffuseTexture = texture;
-                AddTile(tile);
+                tileComponent.ProcessDiffuse(texture);
             }));
-        }
-
-        void AddTile(TileData tile)
-        {
-            if (tile.heightTexture == null || tile.diffuseTexture == null)
-                return;
-
-            GameObject tileGo = GameObject.Instantiate(tilePrefab, manager.transform);
-            tileGo.GetComponent<Tile>().Init(tile);
         }
 
         public override void Stop()

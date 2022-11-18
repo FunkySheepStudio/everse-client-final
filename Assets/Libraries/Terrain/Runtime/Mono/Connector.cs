@@ -30,12 +30,12 @@ namespace FunkySheep.Terrain
               terrain.topNeighbor.GetComponent<Tile>().heightUpdated
             )
             {
-                ConnectTop(terrain.topNeighbor);
+                StartCoroutine("ConnectTop",terrain.topNeighbor);
             }
 
             if (!leftConnected && terrain.leftNeighbor != null && terrain.leftNeighbor.GetComponent<Tile>().heightUpdated)
             {
-                ConnectLeft(terrain.leftNeighbor);
+                StartCoroutine("ConnectLeft", terrain.leftNeighbor);
             }
 
             if (!cornerConnected &&
@@ -44,12 +44,12 @@ namespace FunkySheep.Terrain
                 terrain.leftNeighbor.topNeighbor != null && terrain.leftNeighbor.topNeighbor.GetComponent<Tile>().heightUpdated
               )
             {
-                ConnectCorners();
+                StartCoroutine("ConnectCorners");
             }
 
             if (cornerConnected && leftConnected && topConnected)
             {
-                CreateEcsCollider();
+                StartCoroutine("CreateEcsCollider");
                 enabled = false;
             }
         }
@@ -118,6 +118,8 @@ namespace FunkySheep.Terrain
             terrain.topNeighbor.leftNeighbor.terrainData.SyncHeightmap();
 
             cornerConnected = true;
+            Tile tile = GetComponent<Tile>();
+            tile.onCreatedTileEvent.Raise(tile.mapPosition);
         }
 
         public void CreateEcsCollider()
