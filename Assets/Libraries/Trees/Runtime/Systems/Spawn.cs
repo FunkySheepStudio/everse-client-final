@@ -25,37 +25,37 @@ namespace FunkySheep.Trees.Systems
                 if (!TryGetSingleton<TileSize>(out tileSize))
                     return;
 
-                int2 tilePosition = mapPosition.Value - (int2)math.floor(initialMapPosition.Value);
+                int2 tilePosition = new int2
+                {
+                    x = mapPosition.Value.x - (int)math.floor(initialMapPosition.Value.x),
+                    y = (int)math.floor(initialMapPosition.Value.y) - mapPosition.Value.y
+                };
 
                 for (int i = 0; i < pixels.Length; i++)
                 {
-                    float3 position = new float3
+                    if (pixels[i].Value.g == 173 && pixels[i].Value.b == 209 && pixels[i].Value.a == 158 && i % 4 == 0)
                     {
-                        x = (tilePosition.x + (i / 256)) * tileSize.Value,
-                        z = (-(tilePosition.y + ((i % 256) / 256)) * tileSize.Value)
-                    };
+                        float3 position = new float3
+                        {
+                            x = (tilePosition.x * tileSize.Value) + (i % 256) * tileSize.Value / 256,
+                            z = (tilePosition.y * tileSize.Value) + (i / 256) * tileSize.Value / 256
+                        };
 
-                    float? height = Terrain.Utils.GetHeight(position);
-                    if (height == null)
-                    {
-                        return;
+                        float? height = Terrain.Utils.GetHeight(position);
+                        if (height == null)
+                        {
+                            return;
+                        }
+                        position.y = height.Value;
+
+
+                        Entity tree = buffer.Instantiate(prefabs[0]);
+                        buffer.AddComponent(tree, new Components.Tags.Tree { });
+                        buffer.SetComponent<Translation>(tree, new Translation { Value = position });
+
+                        buffer.RemoveComponent<Components.Tags.Prefab>(tree);
                     }
-                    position.y = height.Value;
-
-
-                    Entity tree = buffer.Instantiate(prefabs[0]);
-
-                    float4x4 transform = float4x4.TRS(
-                            position,
-                            quaternion.identity,
-                            new float3(1, 1, 1)
-                        );
-                    buffer.AddComponent(entity, new LocalToWorld
-                    {
-                        Value = transform
-                    });
                 }
-
                 buffer.RemoveComponent<Pixels>(entity);
             })
             .WithNativeDisableParallelForRestriction(prefabs)
