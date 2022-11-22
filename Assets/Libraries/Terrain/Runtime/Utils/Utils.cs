@@ -41,5 +41,16 @@ namespace FunkySheep.Terrain
             }
             return null;
         }
+
+        [BurstCompile]
+        public static float? GetHeight(float2 position)
+        {
+            return GetHeight(new float3
+            {
+                x = position.x,
+                y = 0,
+                z = position.y
+            });
+        }
     }
 }

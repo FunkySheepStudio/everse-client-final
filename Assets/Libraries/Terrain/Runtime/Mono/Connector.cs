@@ -1,3 +1,4 @@
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -54,6 +55,7 @@ namespace FunkySheep.Terrain
             }
         }
 
+        [BurstCompile]
         void ConnectTop(UnityEngine.Terrain top)
         {
             float[,] heights = terrainData.GetHeights(0, terrainData.heightmapResolution - 1, terrainData.heightmapResolution, 1);
@@ -73,6 +75,7 @@ namespace FunkySheep.Terrain
             topConnected = true;
         }
 
+        [BurstCompile]
         void ConnectLeft(UnityEngine.Terrain left)
         {
             float[,] heights = terrainData.GetHeights(0, 0, 1, terrainData.heightmapResolution);
@@ -92,6 +95,7 @@ namespace FunkySheep.Terrain
             leftConnected = true;
         }
 
+        [BurstCompile]
         void ConnectCorners()
         {
             float[,] heights = terrainData.GetHeights(0, terrainData.heightmapResolution - 1, 1, 1);
@@ -122,6 +126,7 @@ namespace FunkySheep.Terrain
             tile.onCreatedTileEvent.Raise(tile.mapPosition);
         }
 
+        [BurstCompile]
         public void CreateEcsCollider()
         {
             var physicsCollider = new PhysicsCollider();
